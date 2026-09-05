@@ -6,9 +6,6 @@ This repository demonstrates a robust, scalable, and highly detailed automated t
 
 <<<<<<< HEAD
 ## 🎯 Value Proposition 
-=======
-## 🎯 Value Proposition for Clients
->>>>>>> 0cfd11a (Actualiza playwright.config y configura reporte HTML personalizado)
 
 If you are looking for a QA professional to ensure your e-commerce platform is bug-free and delivers a seamless user experience, this suite showcases my testing approach:
 
