@@ -23,6 +23,10 @@ If you are looking for a QA professional to ensure your e-commerce platform is b
 * **Language:** TypeScript / JavaScript
 * **Pattern:** Page Object Model (POM)
 
+## 🧪 Test Results 
+
+https://automatedsaucedemoreport.netlify.app
+
 ## 🧪 Test Coverage Breakdown
 
 This automation suite is divided into focused, atomic modules to ensure complete coverage of the application:
