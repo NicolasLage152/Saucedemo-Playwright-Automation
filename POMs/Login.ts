@@ -13,10 +13,9 @@ export class LoginPage {
     this.loginButton = page.locator('[data-test="login-button"]');
   }
 
-  async goto() {
-    // Usamos '/' asumiendo que ya configuraste el baseURL en playwright.config.ts
-    await this.page.goto('/'); 
-  }
+async goto() {
+  await this.page.goto('https://www.saucedemo.com/');
+}
 
   // Al asignar el valor acá, el método se puede llamar vacío
   async login(username = 'standard_user', password = 'secret_sauce') {

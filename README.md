@@ -4,7 +4,11 @@ Welcome to my portfolio repository! I'm Nicolas, a  QA Engineer specializing in 
 
 This repository demonstrates a robust, scalable, and highly detailed automated testing framework designed to ensure quality and reliability for an e-commerce platform (SauceDemo). It goes beyond standard "happy paths" to validate complex edge cases, mathematical dynamically calculated totals, and security controls.
 
+<<<<<<< HEAD
 ## 🎯 Value Proposition 
+=======
+## 🎯 Value Proposition for Clients
+>>>>>>> 0cfd11a (Actualiza playwright.config y configura reporte HTML personalizado)
 
 If you are looking for a QA professional to ensure your e-commerce platform is bug-free and delivers a seamless user experience, this suite showcases my testing approach:
 
