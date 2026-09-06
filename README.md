@@ -16,38 +16,40 @@ If you are looking for a QA professional to ensure your e-commerce platform is b
 * **Resilience Testing:** Simulates heavy load (UI stress toggling), UI visual regressions, and slow network (performance glitch) user profiles.
 
 ## 🛠️ Tech Stack
-* **Framework:** [Playwright](https://playwright.dev/)
-* **Language:** TypeScript / JavaScript
-* **Pattern:** Page Object Model (POM)
+*   **Testing Framework:** Playwright
+*   **Language:** JavaScript / TypeScript
+*   **Design Pattern:** Page Object Model (POM)
+*   **Reporting:** Playwright HTML Reporter
+*   **Hosting/CI:** Netlify (for report hosting)
 
 ## 🧪 Test Results 
 
-https://automatedsaucedemoreport.netlify.app
+https://saucedemoautomation.netlify.app/
 
 ## 🧪 Test Coverage Breakdown
 
 This automation suite is divided into focused, atomic modules to ensure complete coverage of the application:
 
-### 1. 🛒 Cart Management 
+### 1. 🛒 Cart Management (95%)
 * Validation of empty cart states and UI elements.
 * Persistence of cart items across page reloads (F5) and login/logout sessions.
 * Massive add-to-cart operations (Stress testing UI).
 * Data consistency between Product Listing Page (PLP), Product Detail Page (PDP), and the Cart.
 
-### 2. 💳 Checkout Flows 
+### 2. 💳 Checkout Flows (95%)
 * **Step One:** Strict form validation, capturing missing fields and whitespace bypass bugs (`BUG-001`).
 * **Overview:** Dynamic mathematical calculations verifying Subtotal, Taxes, and Total match the items selected.
 * **Security Edge Cases:** URL injection prevention—ensuring unauthenticated users cannot access checkout steps directly.
 * **Completion:** Validation of order success screens, "Back Home" routing, and simulated PDF invoice generation.
 
-### 3. 👥 User Role Verification 
+### 3. 👥 User Role Verification  (100%)
 Validates platform behavior against multiple user states:
 * `standard_user`: Full happy path.
 * `locked_out_user`: Validates explicit UI error messaging.
 * `problem_user`: Captures broken image links (`404` assets) in the inventory.
 * `performance_glitch_user`: Validates system stability under delayed response times (>3000ms).
 
-### 4. 🧭 Navigation & UI Modules
+### 4. 🧭 Navigation & UI Modules (100%)
 * **Sorting (`sort.spec.ts`):** Verifies algorithmic sorting logic (A-Z, Z-A, Price Low-High, Price High-Low).
 * **Hamburger Menu:** Validates application state resets, external external routing, and session logout.
 * **Footer:** Verifies static content and social media redirect links.
