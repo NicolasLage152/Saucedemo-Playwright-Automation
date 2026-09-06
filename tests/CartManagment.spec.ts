@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
 
-test.describe('Pruebas dedicadas de gestión del Carrito - SauceDemo', () => {
+test.describe('Cart Management Tests - SauceDemo', () => {
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
   await loginPage.goto();
@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-  test('Verificar interfaz y estado inicial al ingresar a un carrito vacío', async ({ page }) => {
+  test('Verify interface and initial state when entering an empty cart', async ({ page }) => {
     await page.locator('[data-test="shopping-cart-link"]').click();
     await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
 
@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
     await expect(page.locator('[data-test="checkout"]')).toBeVisible();
   });
 
-  test('Validar el botón "Continue Shopping" retorna al catálogo manteniendo el estado', async ({ page }) => {
+  test('Validate the "Continue Shopping" button returns to the catalog while maintaining the state', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     
     await page.locator('[data-test="shopping-cart-link"]').click();
@@ -34,7 +34,7 @@ test.beforeEach(async ({ page }) => {
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
   });
 
-  test('Verificar la persistencia de productos en el carrito tras recargar la página (F5)', async ({ page }) => {
+  test('Verify product persistence in the cart after reloading the page (F5)', async ({ page }) => {
     const product = 'Sauce Labs Bolt T-Shirt';
     
     const productItem = page.locator('[data-test="inventory-item"]').filter({ hasText: product });
@@ -50,7 +50,7 @@ test.beforeEach(async ({ page }) => {
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
   });
 
-  test('Verificar la adición masiva de todos los productos al carrito (6/6)', async ({ page }) => {
+  test('Verify the bulk addition of all products to the cart (6/6)', async ({ page }) => {
     const addButtons = page.locator('button', { hasText: 'Add to cart' });
     const totalProducts = await addButtons.count();
 
@@ -67,7 +67,7 @@ test.beforeEach(async ({ page }) => {
     const cartItems = page.locator('[data-test="inventory-item"]');
     await expect(cartItems).toHaveCount(totalProducts);
   });
-test('Eliminación parcial con múltiples productos actualiza correctamente el badge y la lista', async ({ page }) => {
+test('Partial removal with multiple products correctly updates the badge and list', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
@@ -85,7 +85,7 @@ test('Eliminación parcial con múltiples productos actualiza correctamente el b
     await expect(page.locator('[data-test="inventory-item"]').filter({ hasText: 'Sauce Labs Backpack' })).toBeVisible();
     await expect(page.locator('[data-test="inventory-item"]').filter({ hasText: 'Sauce Labs Bolt T-Shirt' })).toBeVisible();
   });
-test('Eliminar un producto desde el carrito actualiza la lista y el contador', async ({ page }) => {
+test('Removing a product from the cart updates the list and counter', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     
     await page.locator('[data-test="shopping-cart-link"]').click();
@@ -98,7 +98,7 @@ test('Eliminar un producto desde el carrito actualiza la lista y el contador', a
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toBeHidden();
   });
 
-  test('Los datos del producto en el carrito coinciden con los del catálogo', async ({ page }) => {
+  test('Product details in the cart match those in the catalog', async ({ page }) => {
     const catalogName = await page.locator('[data-test="inventory-item-name"]').first().textContent();
     const catalogPrice = await page.locator('[data-test="inventory-item-price"]').first().textContent();
     
@@ -109,7 +109,7 @@ test('Eliminar un producto desde el carrito actualiza la lista y el contador', a
     await expect(page.locator('[data-test="inventory-item-price"]')).toHaveText(catalogPrice!);
   });
 
-  test('El botón Checkout inicia correctamente el flujo de compra', async ({ page }) => {
+  test('The Checkout button correctly initiates the purchase flow', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-onesie"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
 
@@ -117,7 +117,7 @@ test('Eliminar un producto desde el carrito actualiza la lista y el contador', a
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-one.html');
   });
 
- test('Eliminación del producto desde la vista de catálogo actualiza el badge', async ({ page }) => {
+ test('Removing the product from the catalog view updates the badge', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 
@@ -129,7 +129,7 @@ test('Eliminar un producto desde el carrito actualiza la lista y el contador', a
     await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(0);
   });
 
-  test('Alternancia rápida de estados (Toggle rápido Add/Remove) en el catálogo', async ({ page }) => {
+  test('Rapid state toggling (Quick Add/Remove toggle) in the catalog', async ({ page }) => {
     const addButton = page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
     const removeButton = page.locator('[data-test="remove-sauce-labs-bike-light"]');
     const badge = page.locator('[data-test="shopping-cart-badge"]');
@@ -143,7 +143,7 @@ test('Eliminar un producto desde el carrito actualiza la lista y el contador', a
     await page.locator('[data-test="shopping-cart-link"]').click();
     await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(1);
   });
-test('Comportamiento del carrito tras cerrar e iniciar sesión nuevamente', async ({ page }) => {
+test('Cart behavior after logging out and logging back in', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 

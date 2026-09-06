@@ -3,7 +3,7 @@ import { LoginPage } from '../POMs/Login';
 import { CheckoutStep1 } from '../POMs/CheckoutStep1';
 
 
-test.describe('Pruebas automatizadas E-commerce - SauceDemo', () => {
+test.describe('Automated E-commerce Tests - SauceDemo', () => {
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);
@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
   await loginPage.login(); 
 });
 
-  test('Verificar que el catálogo de productos se renderice correctamente', async ({ page }) => {
+  test('Verify that the product catalog renders correctly', async ({ page }) => {
     const inventoryItems = page.locator('[data-test="inventory-item"]');
     await expect(inventoryItems).toHaveCount(6);
 
@@ -24,7 +24,7 @@ test.beforeEach(async ({ page }) => {
     }
   });
 
-    test('Validar la remoción de un producto directamente desde la vista de detalle (PDP)', async ({ page }) => {
+    test('Validate product removal directly from the product detail view (PDP)', async ({ page }) => {
     const firstProduct = page.locator('[data-test="inventory-item-name"]').first();
     await firstProduct.click();
     await expect(page).toHaveURL(/.*inventory-item\.html.*/);
@@ -46,7 +46,7 @@ test.beforeEach(async ({ page }) => {
     await expect(page.locator('[data-test="inventory-item"]')).toHaveCount(0);
   });
 
-  test('Flujo de compra completo con navegación PDP, validaciones en Cart y suma de Taxes', async ({ page }) => {
+  test('Complete purchase flow with PDP navigation, Cart validations, and Tax calculation', async ({ page }) => {
     const product1 = 'Sauce Labs Backpack';
     const product2 = 'Sauce Labs Bike Light';
     const cartBadge = page.locator('[data-test="shopping-cart-badge"]');

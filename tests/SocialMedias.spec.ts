@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
 
-test.describe('Pruebas del Footer y Redes Sociales - SauceDemo', () => {
+test.describe('Footer and Social Media Tests - SauceDemo', () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
@@ -9,7 +9,7 @@ test.describe('Pruebas del Footer y Redes Sociales - SauceDemo', () => {
     await loginPage.login(); 
   });
 
-  test('Validar enlaces de redes sociales y texto de copyright en el footer', async ({ page }) => {
+  test('Validate social media links and copyright text in the footer', async ({ page }) => {
     const twitterLink = page.locator('.social_twitter a');
     await expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/saucelabs');
 

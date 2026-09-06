@@ -16,54 +16,54 @@ test.describe('Pruebas automatizadas - Checkout Step One', () => {
     await page.locator('[data-test="checkout"]').click();
   });
 
-  test('Llenar formulario completo y continuar', async ({ page }) => {
+  test('Fill out the complete form and continue', async ({ page }) => {
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', 'Tester', '11000');
     
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html');
   });
 
-  test('Validar mensaje de error si se envía el formulario vacío', async () => {
+  test('Validate error message when submitting an empty form', async () => {
     await checkoutStepOnePage.clickContinue();
     
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
     await expect(checkoutStepOnePage.errorMessage).toContainText('Error: First Name is required');
   });
 
-  test('Validar mensaje de error si falta el apellido (Last Name)', async () => {
+  test('Validate error message when the last name (Last Name) is missing', async () => {
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', '', '11000');
     
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
     await expect(checkoutStepOnePage.errorMessage).toContainText('Error: Last Name is required');
   });
 
-  test('Validar mensaje de error si falta el código postal (Postal Code)', async () => {
+  test('Validate error message when the postal code (Postal Code) is missing', async () => {
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', 'Tester', '');
     
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
     await expect(checkoutStepOnePage.errorMessage).toContainText('Error: Postal Code is required');
   });
-test('Validar error al ingresar únicamente espacios en blanco en Nombre (First Name)', async () => {
+test('Validate error when entering only whitespace in First Name', async () => {
     test.fail(true, 'BUG-001: SauceDemo permite avanzar con espacios en blanco en First Name (falta .trim())');
 
     await checkoutStepOnePage.fillInformationAndContinue('   ', 'Tester', '11000');
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
   });
 
-  test('Validar error al ingresar únicamente espacios en blanco en Apellido (Last Name)', async () => {
+  test('Validate error when entering only whitespace in Last Name', async () => {
     test.fail(true, 'BUG-001: SauceDemo permite avanzar con espacios en blanco en Last Name (falta .trim())');
 
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', '   ', '11000');
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
   });
 
-  test('Validar error al ingresar únicamente espacios en blanco en Código Postal (Postal Code)', async () => {
+  test('Validate error when entering only whitespace in Postal Code', async () => {
     test.fail(true, 'BUG-001: SauceDemo permite avanzar con espacios en blanco en Postal Code (falta .trim())');
 
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', 'Tester', '   ');
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
   });
 
-  test('Validar bloqueo de formulario enviando únicamente espacios en todos los campos', async () => {
+  test('Validate form blocking when submitting only whitespace in all fields', async () => {
     test.fail(true, 'BUG-001: SauceDemo permite avanzar enviando solo espacios en blanco en todos los campos');
 
     await checkoutStepOnePage.fillInformationAndContinue('   ', '   ', '   ');

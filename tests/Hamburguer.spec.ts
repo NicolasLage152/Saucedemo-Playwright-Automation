@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
 
-test.describe('Pruebas de Navegación (Menú Hamburguesa) - SauceDemo', () => {
+test.describe('Navigation Tests (Hamburger Menu) - SauceDemo', () => {
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
@@ -9,7 +9,7 @@ test.describe('Pruebas de Navegación (Menú Hamburguesa) - SauceDemo', () => {
     await loginPage.login(); 
   });
 
-  test('El enlace "All Items" retorna correctamente a la vista principal del inventario', async ({ page }) => {
+  test('The "All Items" link correctly returns to the main inventory view', async ({ page }) => {
     await page.locator('[data-test="shopping-cart-link"]').click();
     await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
     
@@ -19,14 +19,14 @@ test.describe('Pruebas de Navegación (Menú Hamburguesa) - SauceDemo', () => {
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
   });
 
-  test('El enlace "About" redirige correctamente al dominio externo de Sauce Labs', async ({ page }) => {
+  test('The "About" link correctly redirects to the external Sauce Labs domain', async ({ page }) => {
     await page.locator('#react-burger-menu-btn').click();
     await page.locator('[data-test="about-sidebar-link"]').click(); 
     
     await expect(page).toHaveURL('https://saucelabs.com/');
   });
 
-  test('El enlace "Logout" cierra la sesión activa y devuelve a la pantalla de inicio', async ({ page }) => {
+  test('The "Logout" link closes the active session and returns to the login screen', async ({ page }) => {
     await page.locator('#react-burger-menu-btn').click();
     await page.locator('[data-test="logout-sidebar-link"]').click(); 
     
@@ -36,7 +36,7 @@ test.describe('Pruebas de Navegación (Menú Hamburguesa) - SauceDemo', () => {
     await expect(page.locator('[data-test="username"]')).toBeVisible();
   });
 
-  test('El menú hamburguesa se cierra correctamente al hacer clic en la cruz (X)', async ({ page }) => {
+  test('The hamburger menu closes correctly when clicking the close (X) button', async ({ page }) => {
     await page.locator('#react-burger-menu-btn').click();
     
     const menuWrap = page.locator('.bm-menu-wrap');
@@ -47,7 +47,7 @@ test.describe('Pruebas de Navegación (Menú Hamburguesa) - SauceDemo', () => {
     await expect(menuWrap).toBeHidden();
   });
 
-test('El menú hamburguesa permanece abierto al hacer clic fuera de su contenedor', async ({ page }) => {
+test('The hamburger menu remains open when clicking outside its container', async ({ page }) => {
     await page.locator('#react-burger-menu-btn').click();
     
     const menuWrap = page.locator('.bm-menu-wrap');
@@ -58,7 +58,7 @@ test('El menú hamburguesa permanece abierto al hacer clic fuera de su contenedo
     await expect(menuWrap).toBeVisible();
   });
 
-  test('El botón "Reset App State" vacía el carrito (badge oculto) y mantiene la sesión activa', async ({ page }) => {
+  test('The "Reset App State" button clears the cart (badge hidden) and keeps the session active', async ({ page }) => {
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 

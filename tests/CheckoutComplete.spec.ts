@@ -25,21 +25,21 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
   });
 
-  test('Validar visibilidad de toda la información y elementos visuales', async () => {
+  test('Validate visibility of all information and visual elements', async () => {
     await checkoutCompletePage.verifyCompletePageDisplayed();
   });
 
-  test('Validar funcionamiento del botón Back Home', async ({ page }) => {
+  test('Validate Back Home button functionality', async ({ page }) => {
     await checkoutCompletePage.clickBackHome();
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
   });
 
-  test('Validar funcionamiento y descarga del botón Generate PDF order', async () => {
+  test('Validate functionality and download of the Generate PDF order button', async () => {
     const download = await checkoutCompletePage.clickGeneratePDF();
     expect(download.suggestedFilename()).toContain('.pdf');
   });
 
-test('Edge Case - Acceso directo pegando la URL directamente', async ({ browser }) => {
+test('Edge Case - Direct access by pasting the URL directly', async ({ browser }) => {
     const newContext = await browser.newContext();
     const newPage = await newContext.newPage();
 

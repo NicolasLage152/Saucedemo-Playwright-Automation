@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
-test.describe('Pruebas del módulo de Ordenamiento (Sort) - SauceDemo', () => {
+test.describe('Sorting Module Tests - SauceDemo', () => {
 
 
 test.beforeEach(async ({ page }) => {
@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
   
   await loginPage.login(); 
 });
-  test('Validar ordenamiento alfabético de la A a la Z (az)', async ({ page }) => {
+  test('Validate alphabetical sorting from A to Z (az)', async ({ page }) => {
     const sortDropdown = page.locator('[data-test="product-sort-container"]');
     await sortDropdown.selectOption('az'); // Name (A to Z)
 
@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
     expect(itemNames).toEqual(sortedNames);
   });
 
-  test('Validar ordenamiento alfabético de la Z a la A (za)', async ({ page }) => {
+  test('Validate alphabetical sorting from Z to A (za)', async ({ page }) => {
     const sortDropdown = page.locator('[data-test="product-sort-container"]');
     await sortDropdown.selectOption('za'); // Name (Z to A)
 
@@ -31,7 +31,7 @@ test.beforeEach(async ({ page }) => {
     expect(itemNames).toEqual(sortedNames);
   });
 
-  test('Validar ordenamiento por precio de menor a mayor (lohi)', async ({ page }) => {
+  test('Validate price sorting from low to high (lohi)', async ({ page }) => {
     const sortDropdown = page.locator('[data-test="product-sort-container"]');
     await sortDropdown.selectOption('lohi'); 
 
@@ -44,7 +44,7 @@ test.beforeEach(async ({ page }) => {
     expect(prices).toEqual(sortedPrices);
   });
 
-  test('Validar ordenamiento por precio de mayor a menor (hilo)', async ({ page }) => {
+  test('Validate price sorting from high to low (hilo)', async ({ page }) => {
     const sortDropdown = page.locator('[data-test="product-sort-container"]');
     await sortDropdown.selectOption('hilo'); 
 

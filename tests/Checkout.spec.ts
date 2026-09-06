@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
 import { CheckoutStep1 } from '../POMs/CheckoutStep1';
 
-test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
+test.describe('Automated E-commerce Tests - Checkout Overview', () => {
 
 
   test.beforeEach(async ({ page }) => {
@@ -24,7 +24,7 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
 
 
 
-  test('Validar redirección al PDP desde el título del producto y su visibilidad', async ({ page }) => {
+  test('Validate redirection to the PDP from the product title and its visibility', async ({ page }) => {
     const firstCartItem = page.locator('[data-test="inventory-item"]').first();
     const productTitleLocator = firstCartItem.locator('.inventory_item_name');
     
@@ -41,7 +41,7 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
     await expect(page.locator('[data-test="inventory-item-desc"]')).toBeVisible();
   });
 
-  test('Validar información estática de Payment y Shipping', async ({ page }) => {
+  test('Validate static Payment and Shipping information', async ({ page }) => {
     await expect(page.locator('[data-test="payment-info-label"]')).toHaveText('Payment Information:');
     await expect(page.locator('[data-test="payment-info-value"]')).toHaveText('SauceCard #31337');
     
@@ -50,13 +50,13 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
   });
 
 
-  test('Validar flujo del botón Cancel retorna al catálogo preservando el carrito', async ({ page }) => {
+  test('Validate the Cancel button flow returns to the catalog while preserving the cart', async ({ page }) => {
     await page.locator('[data-test="cancel"]').click();
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
     await expect(page.locator('.shopping_cart_badge')).toHaveText('1');
   });
 
-  test('Validar flujo del botón Finish completa la compra exitosamente', async ({ page }) => {
+  test('Validate the Finish button flow successfully completes the purchase', async ({ page }) => {
     await page.locator('[data-test="finish"]').click();
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
     await expect(page.locator('[data-test="complete-header"]')).toHaveText('Thank you for your order!');
@@ -65,7 +65,7 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
 
 
 
-  test('Edge Case - Validar cálculo matemático dinámico con múltiples productos', async ({ page }) => {
+  test('Edge Case - Validate dynamic mathematical calculation with multiple products', async ({ page }) => {
     await page.locator('[data-test="cancel"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bolt-t-shirt"]').click();
@@ -102,7 +102,7 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
     expect(calculatedTotal).toBe(actualTotal);
   });
 
-  test('Edge Case - Permitir checkout con el carrito vacío (Comportamiento de la plataforma)', async ({ page }) => {
+  test('Edge Case - Allow checkout with an empty cart (Platform behavior)', async ({ page }) => {
     await page.locator('[data-test="cancel"]').click();
     await page.locator('[data-test="shopping-cart-link"]').click();
     await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
@@ -121,7 +121,7 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Overview', () => {
 
 
 
-  test('Edge Case - Inyección de URL: Intentar acceder a Step Two sin completar Step One', async ({ browser }) => {
+  test('Edge Case - URL Injection: Attempting to access Step Two without completing Step One', async ({ browser }) => {
     const cleanContext = await browser.newContext();
     const cleanPage = await cleanContext.newPage();
 
