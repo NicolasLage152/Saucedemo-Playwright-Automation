@@ -17,7 +17,6 @@ async goto() {
   await this.page.goto('https://www.saucedemo.com/');
 }
 
-  // Al asignar el valor acá, el método se puede llamar vacío
   async login(username = 'standard_user', password = 'secret_sauce') {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);

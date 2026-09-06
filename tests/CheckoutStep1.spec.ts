@@ -9,7 +9,6 @@ test.describe('Pruebas automatizadas - Checkout Step One', () => {
     const loginPage = new LoginPage(page);
     checkoutStepOnePage = new CheckoutStep1(page);
 
-    // Llegar hasta la pantalla del formulario
     await loginPage.goto();
     await loginPage.login('standard_user', 'secret_sauce');
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
@@ -18,17 +17,14 @@ test.describe('Pruebas automatizadas - Checkout Step One', () => {
   });
 
   test('Llenar formulario completo y continuar', async ({ page }) => {
-    // Usamos el método unificado del POM
     await checkoutStepOnePage.fillInformationAndContinue('Nicolas', 'Tester', '11000');
     
-    // Verificamos redirección al Step Two
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html');
   });
 
   test('Validar mensaje de error si se envía el formulario vacío', async () => {
     await checkoutStepOnePage.clickContinue();
     
-    // Validamos el error usando el locator centralizado[cite: 1]
     await expect(checkoutStepOnePage.errorMessage).toBeVisible();
     await expect(checkoutStepOnePage.errorMessage).toContainText('Error: First Name is required');
   });

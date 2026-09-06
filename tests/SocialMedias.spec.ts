@@ -6,7 +6,6 @@ test.describe('Pruebas del Footer y Redes Sociales - SauceDemo', () => {
     const loginPage = new LoginPage(page);
     await loginPage.goto();
     
-    // Magia: una sola línea, sin variables raras.
     await loginPage.login(); 
   });
 

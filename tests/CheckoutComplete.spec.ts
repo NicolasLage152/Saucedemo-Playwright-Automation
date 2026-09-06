@@ -10,7 +10,6 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
     const loginPage = new LoginPage(page);
     checkoutCompletePage = new CheckoutCompletePage(page);
 
-    // Precondición: Completar la compra para llegar a la pantalla final
     await loginPage.goto();
     await loginPage.login();
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
@@ -21,7 +20,6 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
 
     await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
 
-    // Clic en el botón Finish para finalizar la compra y llegar a la página complete
     await page.locator('[data-test="finish"]').click();
 
     await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
@@ -42,13 +40,11 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
   });
 
 test('Edge Case - Acceso directo pegando la URL directamente', async ({ browser }) => {
-    // Simulamos un usuario pegando la URL en una pestaña nueva sin sesión
     const newContext = await browser.newContext();
     const newPage = await newContext.newPage();
 
     await newPage.goto('https://www.saucedemo.com/checkout-complete.html');
 
-    // Saucedemo bloquea el acceso directo y redirige al login con error
     await expect(newPage).toHaveURL('https://www.saucedemo.com/');
     await expect(newPage.locator('[data-test="error"]')).toBeVisible();
 
