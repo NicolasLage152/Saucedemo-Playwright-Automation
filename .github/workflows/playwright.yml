@@ -52,18 +52,29 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
-  deploy-report:
+deploy-report:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Chromium Report Artifact
+      - name: Download all blob reports
         uses: actions/download-artifact@v4
         with:
-          name: playwright-report-chromium
-          path: playwright-report
+          pattern: playwright-report-*
+          path: all-blob-reports
+          merge-multiple: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Merge reports into one HTML
+        run: npx playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3.0
@@ -71,7 +82,7 @@ jobs:
           publish-dir: './playwright-report'
           production-deploy: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy Playwright Report from GitHub Actions [skip ci]"
+          deploy-message: "Deploy Multi-Browser Playwright Report from CI"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
