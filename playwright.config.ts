@@ -14,13 +14,13 @@ export default defineConfig({
   
 reporter: [['html', { outputFolder: 'playwright-report', open: 'never' }]],
   use: {
-    // Definimos la URL base global
+    
     baseURL: 'https://www.saucedemo.com',
     trace: 'on-first-retry',
 
-    // Evidencias visuales para el reporte HTML
-    screenshot: 'only-on-failure', // Adjunta captura si falla un test
-    video: 'retain-on-failure',     // Graba video si falla un test
+    
+    screenshot: 'only-on-failure', 
+    video: 'retain-on-failure',     
   },
 
   projects: [
