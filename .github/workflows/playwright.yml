@@ -52,7 +52,7 @@ jobs:
         path: playwright-report/
         retention-days: 30
 
-deploy-report:
+  deploy-report:
     needs: test
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
