@@ -89,3 +89,22 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Send Email Notification
+        if: ${{ !cancelled() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "SauceDemo Report: ${{ needs.test.result == 'success' && '✅ Successful Execution' || '🚨 Errors/Failures Detected' }}"
+          to: ${{ secrets.MAIL_USERNAME }}
+          from: GitHub Actions CI
+          body: |
+            The automated test execution for SauceDemo has finished.
+            
+            Test suite workflow status: ${{ needs.test.result }}
+            
+            Check the consolidated multi-browser report here:
+            https://automatedsaucedemoreport.netlify.app/
