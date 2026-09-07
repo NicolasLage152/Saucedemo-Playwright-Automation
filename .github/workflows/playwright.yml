@@ -11,6 +11,11 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     
+    strategy:
+      fail-fast: false # 
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
     steps:
     - uses: actions/checkout@v4
     
@@ -22,30 +27,27 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    # 1. Busca si los navegadores ya existen en la caché de GitHub
     - name: Cache Playwright Browsers
       uses: actions/cache@v4
       id: playwright-cache
       with:
         path: ~/.cache/ms-playwright
-        key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+        key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
 
-    # 2. Si NO hubo coincidencia en caché, descarga los navegadores completos
-    - name: Install Playwright Browsers and OS Deps (Cache Miss)
+    - name: Install Playwright Browser and OS Deps (Cache Miss)
       if: steps.playwright-cache.outputs.cache-hit != 'true'
-      run: npx playwright install --with-deps
+      run: npx playwright install ${{ matrix.browser }} --with-deps
 
-    # 3. Si SÍ estaban en caché, solo asegura las librerías del sistema (mucho más rápido)
     - name: Install OS Dependencies only (Cache Hit)
       if: steps.playwright-cache.outputs.cache-hit == 'true'
-      run: npx playwright install-deps
+      run: npx playwright install-deps ${{ matrix.browser }}
       
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --project=${{ matrix.browser }}
       
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
-        name: playwright-report
+        name: playwright-report-${{ matrix.browser }}
         path: playwright-report/
         retention-days: 30
