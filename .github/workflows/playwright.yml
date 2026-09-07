@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     strategy:
-      fail-fast: false # 
+      fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
         
@@ -51,3 +51,27 @@ jobs:
         name: playwright-report-${{ matrix.browser }}
         path: playwright-report/
         retention-days: 30
+
+  deploy-report:
+    needs: test
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Chromium Report Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: playwright-report-chromium
+          path: playwright-report
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './playwright-report'
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy Playwright Report from GitHub Actions [skip ci]"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
