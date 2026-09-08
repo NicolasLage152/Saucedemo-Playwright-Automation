@@ -1,11 +1,14 @@
-name: Playwright Tests
+name: SauceDemo Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
+  schedule:
+
+    - cron: '0 3 * * *'
 jobs:
   test:
     timeout-minutes: 60
