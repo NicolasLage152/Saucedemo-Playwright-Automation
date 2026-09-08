@@ -13,9 +13,10 @@ test.describe('Navigation Tests (Hamburger Menu) - SauceDemo', () => {
     await page.locator('[data-test="shopping-cart-link"]').click();
     await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
     
-    await page.locator('#react-burger-menu-btn').click();
-    await page.locator('[data-test="inventory-sidebar-link"]').click(); 
-    
+  await page.locator('#react-burger-menu-btn').click();
+    const allItemsLink = page.locator('[data-test="inventory-sidebar-link"]');
+    await allItemsLink.waitFor({ state: 'visible' });
+    await allItemsLink.click();
     await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
   });
 
