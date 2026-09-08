@@ -77,7 +77,7 @@ Consolidated Cloud Reports: Merging test results (blobs) from all three renderin
 
 Email Notifications: Dynamic emails sent on every execution detailing the test suite status (✅ Success or 🚨 Failure) with a direct link to the updated QA report.
 
-💎 Why is this code professional grade?  
+💎 Why is this code professional grade?         
 
 Scalable Architecture: The Page Object Model (POM) isolates business logic from web selectors. If the e-commerce UI changes, only a single file requires modification, keeping the tests intact.
 
