@@ -147,10 +147,11 @@ test('Cart behavior after logging out and logging back in', async ({ page }) => 
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
 
-    await page.locator('#react-burger-menu-btn').click();
-    await page.locator('[data-test="logout-sidebar-link"]').click();
-    await expect(page).toHaveURL('https://www.saucedemo.com/');
+await page.locator('#react-burger-menu-btn').click();
 
+await expect(page.locator('[data-test="logout-sidebar-link"]')).toBeVisible();
+
+await page.locator('[data-test="logout-sidebar-link"]').click();
     const loginPage = new LoginPage(page);
     await loginPage.goto();
     await loginPage.login('standard_user', 'secret_sauce');

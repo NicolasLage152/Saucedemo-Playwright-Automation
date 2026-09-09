@@ -9,6 +9,12 @@ on:
     - cron: '0 3 * * *'
   workflow_dispatch:
 
+# Permisos estrictamente necesarios para que GitHub Actions publique en GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   test:
     timeout-minutes: 60
@@ -45,7 +51,6 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps ${{ matrix.browser }}
         
-      # Generamos un reporte "blob" temporal por cada navegador
       - name: Run Playwright tests
         run: npx playwright test --project=${{ matrix.browser }} --reporter=blob
         
@@ -63,7 +68,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Descargamos los 3 reportes blob en una sola carpeta
       - name: Download all blob reports
         uses: actions/download-artifact@v4
         with:
@@ -78,20 +82,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Unimos los 3 blobs en el HTML final
       - name: Merge reports into one HTML
         run: npx playwright merge-reports --reporter html ./all-blob-reports
 
-      - name: Deploy to Netlify
-        uses: nwtgck/actions-netlify@v3.0
+      # Empaqueta la carpeta del reporte para GitHub Pages
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          publish-dir: './playwright-report'
-          production-deploy: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Deploy Multi-Browser Playwright Report from CI"
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          path: ./playwright-report
+
+      # Despliega el artefacto en GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
       - name: Send Email Notification
         if: ${{ !cancelled() }}
         uses: dawidd6/action-send-mail@v3
@@ -110,4 +114,4 @@ jobs:
             Test suite workflow status: ${{ needs.test.result }}
             
             Check the consolidated multi-browser report here:
-            https://automatedsaucedemoreport.netlify.app/
+            https://NicolasLage152.github.io/Saucedemo-Playwright-Automation/
