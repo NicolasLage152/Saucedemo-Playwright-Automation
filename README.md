@@ -1,6 +1,6 @@
 
 [![SauceDemo Playwright Tests](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/playwright.yml)
-[![Netlify Report](https://img.shields.io/badge/Netlify-Report_Deployed-00C7B7?logo=netlify)](https://app.netlify.com/projects/saucedemoautomation/deploys)
+[![GitHub Pages Status](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/pages/pages-build-deployment/badge.svg)](https://NicolasLage152.github.io/Saucedemo-Playwright-Automation/)
 
 
 🚀 E-Commerce Playwright Automation Suite | SauceDemo
@@ -34,7 +34,7 @@ SMTP (Notifications): Automated email delivery for quality alerts.
 
 ## 🧪 Test Results 
 
-https://saucedemoautomation.netlify.app/
+https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/
 
 ## 🧪 Test Coverage Breakdown
 
