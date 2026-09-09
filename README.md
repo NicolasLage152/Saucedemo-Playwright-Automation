@@ -1,6 +1,6 @@
 
 [![SauceDemo Playwright Tests](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/playwright.yml/badge.svg)](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/playwright.yml)
-[![GitHub Pages Status](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/pages/pages-build-deployment/badge.svg)](https://NicolasLage152.github.io/Saucedemo-Playwright-Automation/)
+[![GitHub Pages Deployment](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/main.yml/badge.svg)](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/main.yml)
 
 
 🚀 E-Commerce Playwright Automation Suite | SauceDemo
