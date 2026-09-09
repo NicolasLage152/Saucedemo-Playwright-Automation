@@ -66,15 +66,19 @@ Validates platform behavior against multiple user states:
 
 ⚙️ Continuous Integration & Deployment (CI/CD)
 
-This project implements a complete professional automated pipeline:
+[x] Nightly Scheduled Runs (Cron): Configured an automated trigger (cron: '0 3 * * *') to execute the full test suite every night at 3:00 AM, guaranteeing daily platform health monitoring without manual intervention.
 
-Matrix Builds (Parallel Testing): Simultaneous execution across Chromium, Firefox, and WebKit to guarantee cross-browser compatibility without increasing execution times.
+[x] Matrix Strategy: Parallel execution across multiple browser engines (Chromium, Firefox, WebKit) to guarantee cross-browser compatibility.
 
-Optimized Caching: Intelligent caching of Playwright browser binaries to reduce GitHub Actions pipeline duration.
+[x] Smart Caching: Configured Playwright browser binary caching to significantly reduce pipeline execution time and resource consumption.
 
-Consolidated Cloud Reports: Merging test results (blobs) from all three rendering engines into a single, unified HTML visual report, automatically deployed to Netlify on every push.
+[x] Consolidated Reporting: Configured artifact upload/download to merge multi-shard .blob files into a single, unified Playwright HTML report.
 
-Email Notifications: Dynamic emails sent on every execution detailing the test suite status (✅ Success or 🚨 Failure) with a direct link to the updated QA report.
+[x] Cloud Deployment: Automated the deployment of the generated HTML report to a static Netlify host for immediate stakeholder visibility.
+
+[x] Alerting System: Integrated an SMTP email notification system to broadcast workflow status (✅ Success / 🚨 Failure) with a direct link to the test evidence.
+
+💻 Tech Stack
 
 💎 Why is this code professional grade?         
 
