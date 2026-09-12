@@ -1,36 +1,36 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
+import { InventoryPage } from '../POMs/InventoryPage';
 
 test.describe('Footer and Social Media Tests - SauceDemo', () => {
+  let loginPage: LoginPage;
+  let inventoryPage: InventoryPage;
+
   test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+    loginPage = new LoginPage(page);
+    inventoryPage = new InventoryPage(page);
+
     await loginPage.goto();
-    
     await loginPage.login(); 
     
     // FIX CLAVE: Confirmar que el login terminó y el catálogo principal cargó antes de ir al footer
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL(/.*inventory\.html/);
   });
 
-  test('Validate social media links and copyright text in the footer', async ({ page }) => {
-    const footer = page.locator('[data-test="footer"]');
-    await footer.scrollIntoViewIfNeeded();
-    await expect(footer).toBeVisible();
+  test('Validate social media links and copyright text in the footer', async () => {
+    await inventoryPage.footer.scrollIntoViewIfNeeded();
+    await expect(inventoryPage.footer).toBeVisible();
 
-    const twitterLink = page.locator('[data-test="social-x"]');
-    await expect(twitterLink).toBeVisible();
-    await expect(twitterLink).toHaveAttribute('href', 'https://x.com/saucelabs');
+    await expect(inventoryPage.twitterLink).toBeVisible();
+    await expect(inventoryPage.twitterLink).toHaveAttribute('href', 'https://x.com/saucelabs');
 
-    const facebookLink = page.locator('[data-test="social-facebook"]');
-    await expect(facebookLink).toBeVisible();
-    await expect(facebookLink).toHaveAttribute('href', 'https://www.facebook.com/saucelabs');
+    await expect(inventoryPage.facebookLink).toBeVisible();
+    await expect(inventoryPage.facebookLink).toHaveAttribute('href', 'https://www.facebook.com/saucelabs');
 
-    const linkedInLink = page.locator('[data-test="social-linkedin"]');
-    await expect(linkedInLink).toBeVisible();
-    await expect(linkedInLink).toHaveAttribute('href', 'https://www.linkedin.com/company/sauce-labs/');
+    await expect(inventoryPage.linkedInLink).toBeVisible();
+    await expect(inventoryPage.linkedInLink).toHaveAttribute('href', 'https://www.linkedin.com/company/sauce-labs/');
 
-    const footerCopy = page.locator('[data-test="footer-copy"]');
-    await expect(footerCopy).toBeVisible();
-    await expect(footerCopy).toContainText('Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
+    await expect(inventoryPage.footerCopy).toBeVisible();
+    await expect(inventoryPage.footerCopy).toContainText('Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy');
   });
 });

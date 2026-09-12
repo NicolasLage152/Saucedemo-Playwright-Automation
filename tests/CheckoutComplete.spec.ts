@@ -1,37 +1,45 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../POMs/Login';
-import { CheckoutCompletePage } from '../POMs/CheckoutComplete';
+import { InventoryPage } from '../POMs/InventoryPage';
+import { CartPage } from '../POMs/CartPage';
 import { CheckoutStep1 } from '../POMs/CheckoutStep1';
+import { CheckoutOverviewPage } from '../POMs/CheckoutOverviewPage';
+import { CheckoutCompletePage } from '../POMs/CheckoutComplete';
 
 test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
+  let loginPage: LoginPage;
+  let inventoryPage: InventoryPage;
+  let cartPage: CartPage;
+  let checkoutStep1: CheckoutStep1;
+  let checkoutOverview: CheckoutOverviewPage;
   let checkoutCompletePage: CheckoutCompletePage;
 
   test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+    loginPage = new LoginPage(page);
+    inventoryPage = new InventoryPage(page);
+    cartPage = new CartPage(page);
+    checkoutStep1 = new CheckoutStep1(page);
+    checkoutOverview = new CheckoutOverviewPage(page);
     checkoutCompletePage = new CheckoutCompletePage(page);
 
     await loginPage.goto();
     await loginPage.login();
     
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    // FIX CLAVE: Confirmar estado del carrito antes de avanzar
-    await expect(page.locator('[data-test="shopping-cart-badge"]')).toHaveText('1');
+    // Preparación del estado a través de los POMs
+    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await expect(inventoryPage.cartBadge).toHaveText('1');
     
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    // FIX CLAVE: Esperar a que la URL cambie para estabilizar el DOM
-    await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
+    await inventoryPage.goToCart();
+    await expect(page).toHaveURL(/.*cart\.html/);
     
-    await page.locator('[data-test="checkout"]').click();
-    // FIX CLAVE: Confirmar llegada a step-one
-    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-one.html');
+    await cartPage.goToCheckout();
+    await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    const checkoutStep1 = new CheckoutStep1(page);
     await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
-    // FIX CLAVE: Confirmar llegada a step-two antes de presionar Finish
-    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html');
+    await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
-    await page.locator('[data-test="finish"]').click();
-    await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
+    await checkoutOverview.finishOrder();
+    await expect(page).toHaveURL(/.*checkout-complete\.html/);
   });
 
   test('Validate visibility of all information and visual elements', async () => {
@@ -40,12 +48,10 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
 
   test('Validate Back Home button functionality', async ({ page }) => {
     await checkoutCompletePage.clickBackHome();
-    await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    await expect(page).toHaveURL(/.*inventory\.html/);
   });
 
   test('Validate functionality and download of the Generate PDF order button', async () => {
-    // Nota: Asegúrate de que tu método clickGeneratePDF() en el POM 
-    // incluya const [download] = await Promise.all([page.waitForEvent('download'), ...])
     const download = await checkoutCompletePage.clickGeneratePDF();
     expect(download.suggestedFilename()).toContain('.pdf');
   });
@@ -53,12 +59,14 @@ test.describe('Pruebas automatizadas E-commerce - Checkout Complete', () => {
   test('Edge Case - Direct access by pasting the URL directly', async ({ browser }) => {
     const newContext = await browser.newContext();
     const newPage = await newContext.newPage();
+    const cleanLoginPage = new LoginPage(newPage);
 
-    await newPage.goto('https://www.saucedemo.com/checkout-complete.html');
+    await newPage.goto('/checkout-complete.html');
 
-    await expect(newPage).toHaveURL('https://www.saucedemo.com/');
-    await expect(newPage.locator('[data-test="error"]')).toBeVisible();
-    await expect(newPage.locator('[data-test="error"]')).toContainText('Epic sadface');
+    // Validación unificada del redireccionamiento y error usando el POM de Login
+    await expect(newPage).toHaveURL(/.*saucedemo\.com\//);
+    await expect(cleanLoginPage.errorMessage).toBeVisible();
+    await expect(cleanLoginPage.errorMessage).toContainText('Epic sadface');
 
     await newContext.close();
   });
