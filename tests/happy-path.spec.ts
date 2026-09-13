@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../POMs/Login';
-import { InventoryPage } from '../POMs/InventoryPage';
-import { ProductDetailsPage } from '../POMs/ProductDetailsPage';
-import { CartPage } from '../POMs/CartPage';
-import { CheckoutStep1 } from '../POMs/CheckoutStep1';
-import { CheckoutOverviewPage } from '../POMs/CheckoutOverviewPage';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
+import { ProductDetailsPage } from '../pages/ProductDetailsPage';
+import { CartPage } from '../pages/CartPage';
+import { CheckoutStep1 } from '../pages/CheckoutStep1Page';
+import { CheckoutOverviewPage } from '../pages/CheckoutOverviewPage';
 
 test.describe('Automated E-commerce Tests - SauceDemo', () => {
   let inventoryPage: InventoryPage;

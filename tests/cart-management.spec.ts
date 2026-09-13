@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../POMs/Login';
-import { InventoryPage } from '../POMs/InventoryPage';
-import { CartPage } from '../POMs/CartPage';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
+import { CartPage } from '../pages/CartPage';
 
 test.describe('Cart Management Tests - SauceDemo', () => {
   let loginPage: LoginPage;

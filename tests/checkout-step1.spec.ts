@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { LoginPage } from '../POMs/Login';
-import { InventoryPage } from '../POMs/InventoryPage';
-import { CartPage } from '../POMs/CartPage';
-import { CheckoutStep1 } from '../POMs/CheckoutStep1';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
+import { CartPage } from '../pages/CartPage';
+import { CheckoutStep1 } from '../pages/CheckoutStep1Page';
 
 test.describe('Pruebas automatizadas - Checkout Step One', () => {
   let loginPage: LoginPage;
