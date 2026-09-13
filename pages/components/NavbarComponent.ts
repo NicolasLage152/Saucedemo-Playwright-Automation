@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 
 export class NavbarComponent {
   readonly page: Page;
@@ -31,9 +31,17 @@ export class NavbarComponent {
     await this.cartLink.click();
   }
 
+  async openMenu() {
+    const isClosed =
+      (await this.menuWrap.getAttribute("aria-hidden")) !== "false";
+    if (isClosed) {
+      await this.burgerMenuButton.click();
+    }
+    await expect(this.menuWrap).toHaveCSS("transform", "none");
+  }
+
   async logout() {
-    await this.burgerMenuButton.click();
-    await this.logoutSidebarLink.waitFor({ state: "visible" });
+    await this.openMenu();
     await this.logoutSidebarLink.click();
   }
 }

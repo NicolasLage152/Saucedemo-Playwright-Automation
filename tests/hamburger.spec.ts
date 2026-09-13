@@ -12,6 +12,8 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
 
     await loginPage.goto();
     await loginPage.login();
+    await expect(page).toHaveURL(/.*inventory\.html/);
+    await expect(inventoryPage.inventoryItems).toHaveCount(6);
   });
 
   test('The "All Items" link correctly returns to the main inventory view', async ({
@@ -20,7 +22,7 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
     await inventoryPage.goToCart();
     await expect(page).toHaveURL(/.*cart\.html/);
 
-    await inventoryPage.navbar.burgerMenuButton.click();
+    await inventoryPage.navbar.openMenu();
 
     // FIX CLAVE: Cambiamos .waitFor() por una aserción web-first estándar
     await expect(inventoryPage.navbar.allItemsSidebarLink).toBeVisible();
@@ -32,7 +34,7 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
   test('The "About" link correctly redirects to the external Sauce Labs domain', async ({
     page,
   }) => {
-    await inventoryPage.navbar.burgerMenuButton.click();
+    await inventoryPage.navbar.openMenu();
 
     // FIX CLAVE: Esperar a que la animación del menú termine antes de interactuar
     await expect(inventoryPage.navbar.aboutSidebarLink).toBeVisible();
@@ -53,27 +55,26 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
   });
 
   test("The hamburger menu closes correctly when clicking the close (X) button", async () => {
-    await inventoryPage.navbar.burgerMenuButton.click();
-
-    await expect(inventoryPage.navbar.menuWrap).toBeVisible();
+    await inventoryPage.navbar.openMenu();
 
     // Aseguramos que el botón de cerrar está listo
     await expect(inventoryPage.navbar.closeMenuButton).toBeVisible();
     await inventoryPage.navbar.closeMenuButton.click();
 
-    await expect(inventoryPage.navbar.menuWrap).toBeHidden();
+    await expect(inventoryPage.navbar.menuWrap).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
   });
 
   test("The hamburger menu remains open when clicking outside its container", async ({
     page,
   }) => {
-    await inventoryPage.navbar.burgerMenuButton.click();
-
+    await inventoryPage.navbar.openMenu();
     await expect(inventoryPage.navbar.menuWrap).toBeVisible();
 
-    // Fix: Click a specific element outside the menu instead of hardcoded coordinates
-    // eslint-disable-next-line playwright/no-force-option
-    await page.locator(".app_logo").click({ force: true });
+    // Click outside the menu on an unobstructed content area without forcing
+    await page.locator(".header_secondary_container").click();
 
     await expect(inventoryPage.navbar.menuWrap).toBeVisible();
   });
@@ -84,7 +85,7 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 
-    await inventoryPage.navbar.burgerMenuButton.click();
+    await inventoryPage.navbar.openMenu();
 
     // FIX CLAVE: Esperar a que el link de Reset sea visible en la interfaz desplegada
     await expect(inventoryPage.navbar.resetSidebarLink).toBeVisible();
