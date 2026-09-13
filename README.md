@@ -5,7 +5,6 @@
   [![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)](https://playwright.dev/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com/features/actions)
-  [![Netlify](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://www.netlify.com/)
   
   [![GitHub Pages Deployment](https://github.com/NicolasLage152/Saucedemo-Playwright-Automation/actions/workflows/playwright.yml/badge.svg)](https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/)
 </div>
@@ -103,7 +102,7 @@ The project leverages a modern CI/CD pipeline to guarantee code quality on every
 - **[x] Matrix Strategy**: Parallel execution across multiple browser engines (Chromium, Firefox, WebKit) for guaranteed cross-browser compatibility.
 - **[x] Smart Caching**: Playwright browser binary caching configured to significantly reduce pipeline execution time and resource consumption.
 - **[x] Consolidated Reporting**: Multi-shard `.blob` files are merged into a single, unified Playwright HTML report via artifact upload/download.
-- **[x] Cloud Deployment**: Automated deployment of the generated HTML report to a static Netlify host for immediate stakeholder visibility. [View latest test report](https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/).
+- **[x] Cloud Deployment**: Automated deployment of the generated HTML report to a static Github host for immediate stakeholder visibility. [View latest test report](https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/).
 - **[x] Alerting System**: Integrated SMTP email notifications to broadcast workflow status (✅ Success / 🚨 Failure) with direct links to test evidence.
 
 ---
@@ -137,7 +136,7 @@ npx playwright test --ui
 
 Ensuring top-tier e-commerce functionality is my specialty. If you need a QA professional to build a reliable automation suite, document precise bug reports, and elevate your platform's quality, let's talk!
 
-- **LinkedIn:** [Nicolas Agustin Lage Calabria](https://www.linkedin.com/in/nicolaslage/) *(Note: Update with your actual profile link if needed!)*
+- **LinkedIn:** [Nicolas Agustin Lage Calabria](https://www.linkedin.com/in/nicolas-lage-187413346/) 
 - **Review my code:** Feel free to explore the `tests` and `POMs` folders in this repository!
 
 <div align="center">
