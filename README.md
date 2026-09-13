@@ -25,6 +25,9 @@ If you are looking for a QA professional to ensure your platform is bug-free and
 - **Scalable Architecture**: Utilizes the **Page Object Model (POM)** design pattern for highly maintainable and readable code.
 - **Deep Functional Testing**: Comprehensive coverage of critical e-commerce flows, from the product catalog to the final checkout step.
 - **Edge Case & Bug Detection**: Actively identifies and documents vulnerabilities, such as bypassing URL restrictions without authentication or whitespace form validation bugs (`BUG-001`).
+- **GitHub Actions**: Continuous Integration (CI) orchestration for automated cloud executions.
+- **GitHub Pages**: Static hosting for public visualization of the generated HTML reports.
+- **SMTP (Notifications)**: Automated email delivery for quality alerts.
 - **Dynamic Validations**: Automated tests that dynamically extract, calculate, and verify cart subtotals and taxes to ensure strict financial accuracy.
 - **Resilience & Stress Testing**: Simulates multiple user profiles, including UI visual regressions and slow network behaviors (performance glitch user).
 
@@ -102,7 +105,7 @@ The project leverages a modern CI/CD pipeline to guarantee code quality on every
 - **[x] Matrix Strategy**: Parallel execution across multiple browser engines (Chromium, Firefox, WebKit) for guaranteed cross-browser compatibility.
 - **[x] Smart Caching**: Playwright browser binary caching configured to significantly reduce pipeline execution time and resource consumption.
 - **[x] Consolidated Reporting**: Multi-shard `.blob` files are merged into a single, unified Playwright HTML report via artifact upload/download.
-- **[x] Cloud Deployment**: Automated deployment of the generated HTML report to a static Github host for immediate stakeholder visibility. [View latest test report](https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/).
+- **[x] Cloud Deployment**: Automated deployment of the generated HTML report to a static GitHub Pages host for immediate stakeholder visibility. [View latest test report](https://nicolaslage152.github.io/Saucedemo-Playwright-Automation/).
 - **[x] Alerting System**: Integrated SMTP email notifications to broadcast workflow status (✅ Success / 🚨 Failure) with direct links to test evidence.
 
 ---
