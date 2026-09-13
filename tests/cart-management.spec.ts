@@ -21,7 +21,7 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     page,
   }) => {
     await inventoryPage.goToCart();
-    await expect(page).toHaveURL("https://www.saucedemo.com/cart.html");
+    await expect(page).toHaveURL(/.*cart\.html/);
 
     await expect(cartPage.cartItems).toHaveCount(0);
     await expect(inventoryPage.navbar.cartBadge).toBeHidden();
@@ -39,10 +39,10 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 
     await inventoryPage.goToCart();
-    await expect(page).toHaveURL("https://www.saucedemo.com/cart.html");
+    await expect(page).toHaveURL(/.*cart\.html/);
 
     await cartPage.goBackToShopping();
-    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+    await expect(page).toHaveURL(/.*inventory\.html/);
 
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
   });
@@ -87,7 +87,7 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     );
 
     await inventoryPage.goToCart();
-    await expect(page).toHaveURL("https://www.saucedemo.com/cart.html");
+    await expect(page).toHaveURL(/.*cart\.html/);
 
     await expect(cartPage.cartItems).toHaveCount(totalProducts);
   });

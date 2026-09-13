@@ -99,7 +99,7 @@ test.describe("Automated E-commerce Tests - SauceDemo", () => {
       "11000",
     );
     await expect(page).toHaveURL(
-      "https://www.saucedemo.com/checkout-step-two.html",
+      /.*checkout-step-two\.html/,
     );
 
     // Checkout Step 2 - Validaciones de precio

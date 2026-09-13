@@ -25,14 +25,14 @@ test.describe("Pruebas de Login y Usuarios Específicos - SauceDemo", () => {
     await expect(errorMessage).toContainText(
       "Epic sadface: Sorry, this user has been locked out.",
     );
-    await expect(page).toHaveURL("https://www.saucedemo.com/");
+    await expect(page).toHaveURL(/.*saucedemo\.com\//);
   });
 
   test("Validar fallo de renderizado de imágenes para problem_user", async ({
     page,
   }) => {
     await loginPage.login("problem_user", "secret_sauce");
-    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+    await expect(page).toHaveURL(/.*inventory\.html/);
 
     const firstProductImg = page.locator(".inventory_item_img img").first();
     await expect(firstProductImg).toHaveAttribute("src", /.*sl-404.*\.jpg/);
@@ -44,7 +44,7 @@ test.describe("Pruebas de Login y Usuarios Específicos - SauceDemo", () => {
     const startTime = Date.now();
 
     await loginPage.login("performance_glitch_user", "secret_sauce");
-    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+    await expect(page).toHaveURL(/.*inventory\.html/);
 
     const duration = Date.now() - startTime;
     expect(duration).toBeGreaterThan(3000);
@@ -54,7 +54,7 @@ test.describe("Pruebas de Login y Usuarios Específicos - SauceDemo", () => {
     page,
   }) => {
     await loginPage.login("error_user", "secret_sauce");
-    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+    await expect(page).toHaveURL(/.*inventory\.html/);
 
     const addToCartBtn = page.locator(
       '[data-test="add-to-cart-sauce-labs-fleece-jacket"]',
@@ -68,7 +68,7 @@ test.describe("Pruebas de Login y Usuarios Específicos - SauceDemo", () => {
     page,
   }) => {
     await loginPage.login("visual_user", "secret_sauce");
-    await expect(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+    await expect(page).toHaveURL(/.*inventory\.html/);
 
     const shoppingCart = page.locator(".shopping_cart_link");
     await expect(shoppingCart).toBeVisible();

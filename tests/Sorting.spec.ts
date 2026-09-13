@@ -19,48 +19,53 @@ test.describe('Sorting Module Tests - SauceDemo', () => {
   });
 
   test('Validate alphabetical sorting from A to Z (az)', async () => {
+    // First get the unsorted names, sort them in JS
+    const initialNames = await inventoryPage.itemNames.allTextContents();
+    const expectedSortedNames = [...initialNames].sort();
+
+    // Trigger the sort action
     await inventoryPage.sortProducts('az'); 
 
-    // FIX CLAVE: .allTextContents() NO tiene auto-espera. Obligamos a Playwright a confirmar 
-    // que los 6 nombres existen en el DOM re-renderizado antes de hacer el barrido.
-    await expect(inventoryPage.itemNames).toHaveCount(6);
-    const itemNames = await inventoryPage.itemNames.allTextContents();
-
-    const sortedNames = [...itemNames].sort();
-    expect(itemNames).toEqual(sortedNames);
+    // Use Web-First assertion to retry until the DOM matches the sorted array
+    await expect(inventoryPage.itemNames).toHaveText(expectedSortedNames);
   });
 
   test('Validate alphabetical sorting from Z to A (za)', async () => {
+    const initialNames = await inventoryPage.itemNames.allTextContents();
+    const expectedSortedNames = [...initialNames].sort().reverse();
+
     await inventoryPage.sortProducts('za'); 
 
-    await expect(inventoryPage.itemNames).toHaveCount(6); // Estabilizador de estado
-    const itemNames = await inventoryPage.itemNames.allTextContents();
-    
-    const sortedNames = [...itemNames].sort().reverse();
-    expect(itemNames).toEqual(sortedNames);
+    await expect(inventoryPage.itemNames).toHaveText(expectedSortedNames);
   });
 
   test('Validate price sorting from low to high (lohi)', async () => {
+    const initialPriceTexts = await inventoryPage.itemPrices.allTextContents();
+    
+    // Sort the original strings based on their numerical value
+    const expectedSortedTexts = [...initialPriceTexts].sort((a, b) => {
+      const priceA = parseFloat(a.replace('$', ''));
+      const priceB = parseFloat(b.replace('$', ''));
+      return priceA - priceB;
+    });
+
     await inventoryPage.sortProducts('lohi'); 
 
-    await expect(inventoryPage.itemPrices).toHaveCount(6); // Estabilizador de estado
-    const priceTexts = await inventoryPage.itemPrices.allTextContents();
-    
-    const prices = priceTexts.map(price => parseFloat(price.replace('$', '')));
-    const sortedPrices = [...prices].sort((a, b) => a - b);
-
-    expect(prices).toEqual(sortedPrices);
+    await expect(inventoryPage.itemPrices).toHaveText(expectedSortedTexts);
   });
 
   test('Validate price sorting from high to low (hilo)', async () => {
+    const initialPriceTexts = await inventoryPage.itemPrices.allTextContents();
+    
+    // Sort the original strings based on their numerical value (descending)
+    const expectedSortedTexts = [...initialPriceTexts].sort((a, b) => {
+      const priceA = parseFloat(a.replace('$', ''));
+      const priceB = parseFloat(b.replace('$', ''));
+      return priceB - priceA;
+    });
+
     await inventoryPage.sortProducts('hilo'); 
 
-    await expect(inventoryPage.itemPrices).toHaveCount(6); // Estabilizador de estado
-    const priceTexts = await inventoryPage.itemPrices.allTextContents();
-    
-    const prices = priceTexts.map(price => parseFloat(price.replace('$', '')));
-    const sortedPrices = [...prices].sort((a, b) => b - a);
-
-    expect(prices).toEqual(sortedPrices);
+    await expect(inventoryPage.itemPrices).toHaveText(expectedSortedTexts);
   });
 });

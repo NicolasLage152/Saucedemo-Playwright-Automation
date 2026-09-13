@@ -39,19 +39,17 @@ The framework is structured using best practices to ensure modularity and scalab
 
 ```text
 📦 Saucedemo-Playwright-Automation
- ┣ 📂 POMs                 # Page Object Models encapsulating locators and methods
+ ┣ 📂 pages                # Page Object Models encapsulating locators and methods
  ┃ ┣ 📜 CartPage.ts
- ┃ ┣ 📜 CheckoutStep1.ts
+ ┃ ┣ 📜 CheckoutStep1Page.ts
  ┃ ┣ 📜 InventoryPage.ts
  ┃ ┗ 📜 ... 
  ┣ 📂 tests                # E2E test suites grouped by functionality
- ┃ ┣ 📜 CartManagment.spec.ts
+ ┃ ┣ 📂 login              # Dedicated test suite for authentication edge cases
+ ┃ ┃ ┗ 📜 login.spec.ts
+ ┃ ┣ 📜 cart-management.spec.ts
  ┃ ┣ 📜 Checkout.spec.ts
- ┃ ┣ 📜 HappyPath.spec.ts
- ┃ ┗ 📜 ...
- ┣ 📂 Login                # Dedicated test suite for authentication edge cases
- ┃ ┣ 📜 Login.spec.ts
- ┃ ┣ 📜 Lockedupuser.spec.ts
+ ┃ ┣ 📜 happy-path.spec.ts
  ┃ ┗ 📜 ...
  ┣ 📂 .github/workflows    # CI/CD pipeline definitions
  ┃ ┗ 📜 playwright.yml
@@ -140,7 +138,7 @@ npx playwright test --ui
 Ensuring top-tier e-commerce functionality is my specialty. If you need a QA professional to build a reliable automation suite, document precise bug reports, and elevate your platform's quality, let's talk!
 
 - **LinkedIn:** [Nicolas Agustin Lage Calabria](https://www.linkedin.com/in/nicolas-lage-187413346/) 
-- **Review my code:** Feel free to explore the `tests` and `POMs` folders in this repository!
+- **Review my code:** Feel free to explore the `tests` and `pages` folders in this repository!
 
 <div align="center">
   <i>Engineered with passion for quality.</i>

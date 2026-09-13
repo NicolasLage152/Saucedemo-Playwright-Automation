@@ -47,6 +47,7 @@ test.describe("Pruebas automatizadas E-commerce - Checkout Complete", () => {
   });
 
   test("Validate visibility of all information and visual elements", async () => {
+    // eslint-disable-next-line playwright/expect-expect
     await checkoutCompletePage.verifyCompletePageDisplayed();
   });
 

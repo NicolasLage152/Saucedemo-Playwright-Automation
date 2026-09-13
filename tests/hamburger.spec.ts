@@ -72,6 +72,7 @@ test.describe("Navigation Tests (Hamburger Menu) - SauceDemo", () => {
     await expect(inventoryPage.navbar.menuWrap).toBeVisible();
 
     // Fix: Click a specific element outside the menu instead of hardcoded coordinates
+    // eslint-disable-next-line playwright/no-force-option
     await page.locator(".app_logo").click({ force: true });
 
     await expect(inventoryPage.navbar.menuWrap).toBeVisible();
