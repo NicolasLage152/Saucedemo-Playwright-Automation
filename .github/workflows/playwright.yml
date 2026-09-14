@@ -33,7 +33,15 @@ jobs:
           node-version: lts/*
           cache: 'npm'
           
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Cache Playwright Browsers
@@ -53,6 +61,8 @@ jobs:
         
       - name: Run Playwright tests
         run: npx playwright test --project=${{ matrix.browser }} --reporter=blob
+        env:
+          TEST_ENV: ${{ vars.TEST_ENV || 'https://www.saucedemo.com' }}
         
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -79,7 +89,15 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('package-lock.json') }}
+
       - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Merge reports into one HTML
