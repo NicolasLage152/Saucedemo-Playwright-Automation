@@ -2,11 +2,11 @@ name: SauceDemo Playwright Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
   schedule:
-    - cron: '0 3 * * *'
+    - cron: "0 3 * * *"
   workflow_dispatch:
 
 # Permisos estrictamente necesarios para que GitHub Actions publique en GitHub Pages
@@ -19,20 +19,20 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    
+
     strategy:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
-        
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: 'npm'
-          
+          cache: "npm"
+
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v4
@@ -53,17 +53,17 @@ jobs:
 
       - name: Install Playwright Browser and OS Deps (Cache Miss)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install ${{ matrix.browser }} --with-deps
+        run: npx playwright install chromium ${{ matrix.browser }} --with-deps
 
       - name: Install OS Dependencies only (Cache Hit)
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps ${{ matrix.browser }}
-        
+        run: npx playwright install-deps chromium ${{ matrix.browser }}
+
       - name: Run Playwright tests
         run: npx playwright test --project=${{ matrix.browser }} --reporter=blob
         env:
           TEST_ENV: ${{ vars.TEST_ENV || 'https://www.saucedemo.com' }}
-        
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -128,8 +128,8 @@ jobs:
           from: GitHub Actions CI
           body: |
             The automated test execution for SauceDemo has finished.
-            
+
             Test suite workflow status: ${{ needs.test.result }}
-            
+
             Check the consolidated multi-browser report here:
             https://NicolasLage152.github.io/Saucedemo-Playwright-Automation/
