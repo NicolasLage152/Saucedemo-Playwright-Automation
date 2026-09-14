@@ -26,7 +26,7 @@ export default defineConfig({
     // ── Setup project: runs once, captures session ─────────────────────────
     {
       name: 'setup',
-      testMatch: /auth\.setup\.ts/,
+      testMatch: /.*auth\/auth\.setup\.ts/,
     },
 
     // ── Browser projects: depend on setup, reuse storageState ──────────────
@@ -34,19 +34,19 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: STORAGE_STATE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: /.*auth\/auth\.setup\.ts/,
     },
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], storageState: STORAGE_STATE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: /.*auth\/auth\.setup\.ts/,
     },
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'], storageState: STORAGE_STATE },
       dependencies: ['setup'],
-      testIgnore: /auth\.setup\.ts/,
+      testIgnore: /.*auth\/auth\.setup\.ts/,
     },
   ],
 });

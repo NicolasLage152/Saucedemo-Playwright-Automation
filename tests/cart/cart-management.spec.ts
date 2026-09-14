@@ -1,4 +1,5 @@
 import { test, expect } from '@fixtures/baseTest';
+import { PRODUCTS } from '@fixtures/testData';
 
 /**
  * Auth-gated suite: session is injected via storageState (auth.setup.ts).
@@ -30,7 +31,7 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.goToCart();
@@ -46,7 +47,7 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    const product = 'Sauce Labs Bolt T-Shirt';
+    const product = PRODUCTS.BOLT_T_SHIRT;
 
     await expect(inventoryPage.inventoryItems).not.toHaveCount(0);
     await inventoryPage.addProductToCart(product);
@@ -86,23 +87,23 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
-    await inventoryPage.addProductToCart('Sauce Labs Bike Light');
-    await inventoryPage.addProductToCart('Sauce Labs Bolt T-Shirt');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
+    await inventoryPage.addProductToCart(PRODUCTS.BIKE_LIGHT);
+    await inventoryPage.addProductToCart(PRODUCTS.BOLT_T_SHIRT);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('3');
 
     await inventoryPage.goToCart();
     await expect(cartPage.cartItems).toHaveCount(3);
 
-    const itemToRemove = cartPage.cartItems.filter({ hasText: 'Sauce Labs Bike Light' });
+    const itemToRemove = cartPage.cartItems.filter({ hasText: PRODUCTS.BIKE_LIGHT });
     await itemToRemove.locator('button', { hasText: 'Remove' }).click();
 
     await expect(cartPage.cartItems).toHaveCount(2);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('2');
 
-    await expect(cartPage.cartItems.filter({ hasText: 'Sauce Labs Backpack' })).toBeVisible();
+    await expect(cartPage.cartItems.filter({ hasText: PRODUCTS.BACKPACK })).toBeVisible();
     await expect(
-      cartPage.cartItems.filter({ hasText: 'Sauce Labs Bolt T-Shirt' }),
+      cartPage.cartItems.filter({ hasText: PRODUCTS.BOLT_T_SHIRT }),
     ).toBeVisible();
   });
 
@@ -110,13 +111,13 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.goToCart();
     await expect(cartPage.cartItems).toHaveCount(1);
 
-    const itemToRemove = cartPage.cartItems.filter({ hasText: 'Sauce Labs Backpack' });
+    const itemToRemove = cartPage.cartItems.filter({ hasText: PRODUCTS.BACKPACK });
     await itemToRemove.locator('button', { hasText: 'Remove' }).click();
 
     await expect(cartPage.cartItems).toHaveCount(0);
@@ -156,7 +157,7 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Onesie');
+    await inventoryPage.addProductToCart(PRODUCTS.ONESIE);
     await expect(inventoryPage.navbar.cartBadge).toBeVisible();
 
     await inventoryPage.goToCart();
@@ -168,10 +169,10 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
-    await inventoryPage.removeProductFromCatalog('Sauce Labs Backpack');
+    await inventoryPage.removeProductFromCatalog(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toBeHidden();
 
     await inventoryPage.goToCart();
@@ -182,7 +183,7 @@ test.describe('Cart Management', () => {
     inventoryPage,
     cartPage,
   }) => {
-    const item = inventoryPage.inventoryItems.filter({ hasText: 'Sauce Labs Bike Light' });
+    const item = inventoryPage.inventoryItems.filter({ hasText: PRODUCTS.BIKE_LIGHT });
     const addButton = item.locator('button', { hasText: 'Add to cart' });
     const removeButton = item.locator('button', { hasText: 'Remove' });
 
@@ -204,7 +205,7 @@ test.describe('Cart Management', () => {
     cartPage,
     loginPage,
   }) => {
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.navbar.logout();
@@ -216,7 +217,7 @@ test.describe('Cart Management', () => {
     await inventoryPage.goToCart();
     await expect(cartPage.cartItems).toHaveCount(1);
     await expect(cartPage.cartItems.locator('.inventory_item_name')).toHaveText(
-      'Sauce Labs Backpack',
+      PRODUCTS.BACKPACK,
     );
   });
 });

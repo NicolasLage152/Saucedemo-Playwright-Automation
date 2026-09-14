@@ -1,4 +1,4 @@
-import { test as baseTest, BrowserContext } from '@playwright/test';
+import { test as baseTest } from '@playwright/test';
 import { LoginPage } from '@pages/LoginPage';
 import { InventoryPage } from '@pages/InventoryPage';
 import { CartPage } from '@pages/CartPage';
@@ -6,9 +6,6 @@ import { CheckoutStep1 } from '@pages/CheckoutStep1Page';
 import { CheckoutOverviewPage } from '@pages/CheckoutOverviewPage';
 import { CheckoutCompletePage } from '@pages/CheckoutCompletePage';
 import { ProductDetailsPage } from '@pages/ProductDetailsPage';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type _unused = BrowserContext; // imported to satisfy linter if needed
 
 type CustomFixtures = {
   loginPage: LoginPage;

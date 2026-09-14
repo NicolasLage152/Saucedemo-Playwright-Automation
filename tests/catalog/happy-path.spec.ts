@@ -1,4 +1,5 @@
 import { test, expect } from '@fixtures/baseTest';
+import { DEFAULT_CUSTOMER, PRODUCTS } from '@fixtures/testData';
 
 /**
  * Auth-gated suite: session is injected via storageState (auth.setup.ts).
@@ -65,8 +66,8 @@ test.describe('Happy Path – Full E2E Purchase Flow', () => {
     checkoutOverview,
     checkoutCompletePage,
   }) => {
-    const product1 = 'Sauce Labs Backpack';
-    const product2 = 'Sauce Labs Bike Light';
+    const product1 = PRODUCTS.BACKPACK;
+    const product2 = PRODUCTS.BIKE_LIGHT;
 
     // Product 1 via PDP
     await inventoryPage.openProductByName(product1);
@@ -91,7 +92,7 @@ test.describe('Happy Path – Full E2E Purchase Flow', () => {
     await cartPage.goToCheckout();
 
     // Checkout Step 1
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
     // Checkout Step 2 – price validation (web-first)

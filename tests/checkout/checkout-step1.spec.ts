@@ -1,4 +1,5 @@
 import { test, expect } from '@fixtures/baseTest';
+import { DEFAULT_CUSTOMER, PRODUCTS } from '@fixtures/testData';
 
 /**
  * Auth-gated suite: session is injected via storageState (auth.setup.ts).
@@ -7,7 +8,7 @@ import { test, expect } from '@fixtures/baseTest';
 test.describe('Checkout Step 1 – Information Form', () => {
   test.beforeEach(async ({ page, inventoryPage, cartPage }) => {
     await page.goto('/inventory.html');
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.goToCart();
@@ -21,7 +22,7 @@ test.describe('Checkout Step 1 – Information Form', () => {
     page,
     checkoutStep1,
   }) => {
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
   });
 

@@ -1,13 +1,16 @@
-
-# Playwright
+# Playwright artifacts
 node_modules/
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/playwright/.auth/
-.env
-.env
 
-.env
+# Auth session — never commit session state
 .auth/storageState.json
+
+# Visual regression snapshots (generated, not committed — run --update-snapshots to regenerate)
+# Comment this out if you want to commit baseline snapshots to VCS for CI comparison
+# tests/**/__snapshots__/
+
+# Environment variables
+.env

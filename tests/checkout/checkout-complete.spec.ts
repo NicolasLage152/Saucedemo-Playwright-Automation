@@ -1,4 +1,5 @@
 import { test, expect } from '@fixtures/baseTest';
+import { DEFAULT_CUSTOMER, PRODUCTS } from '@fixtures/testData';
 import { LoginPage } from '@pages/LoginPage';
 
 /**
@@ -13,7 +14,7 @@ test.describe('Checkout Complete – Order Confirmation', () => {
     checkoutOverview,
   }) => {
     await page.goto('/inventory.html');
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.goToCart();
@@ -22,7 +23,7 @@ test.describe('Checkout Complete – Order Confirmation', () => {
     await cartPage.goToCheckout();
     await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
     await checkoutOverview.finishOrder();

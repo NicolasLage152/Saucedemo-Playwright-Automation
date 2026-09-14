@@ -1,5 +1,6 @@
 import { test, expect } from '@fixtures/baseTest';
 import { LoginPage } from '@pages/LoginPage';
+import { DEFAULT_CUSTOMER, PRODUCTS } from '@fixtures/testData';
 
 /**
  * Auth-gated suite: session is injected via storageState (auth.setup.ts).
@@ -9,7 +10,7 @@ test.describe('Checkout Overview (Step 2)', () => {
   test.beforeEach(async ({ page, inventoryPage, cartPage, checkoutStep1 }) => {
     await page.goto('/inventory.html');
 
-    await inventoryPage.addProductToCart('Sauce Labs Backpack');
+    await inventoryPage.addProductToCart(PRODUCTS.BACKPACK);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('1');
 
     await inventoryPage.goToCart();
@@ -18,7 +19,7 @@ test.describe('Checkout Overview (Step 2)', () => {
     await cartPage.goToCheckout();
     await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
   });
 
@@ -87,8 +88,8 @@ test.describe('Checkout Overview (Step 2)', () => {
     await checkoutOverview.cancelButton.click();
     await expect(page).toHaveURL(/.*inventory\.html/);
 
-    await inventoryPage.addProductToCart('Sauce Labs Bike Light');
-    await inventoryPage.addProductToCart('Sauce Labs Bolt T-Shirt');
+    await inventoryPage.addProductToCart(PRODUCTS.BIKE_LIGHT);
+    await inventoryPage.addProductToCart(PRODUCTS.BOLT_T_SHIRT);
     await expect(inventoryPage.navbar.cartBadge).toHaveText('3');
 
     await inventoryPage.goToCart();
@@ -97,7 +98,7 @@ test.describe('Checkout Overview (Step 2)', () => {
     await cartPage.goToCheckout();
     await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
     // toHaveCount auto-waits for all 3 price elements to render
@@ -132,14 +133,14 @@ test.describe('Checkout Overview (Step 2)', () => {
     await inventoryPage.goToCart();
     await expect(page).toHaveURL(/.*cart\.html/);
 
-    const itemToRemove = cartPage.cartItems.filter({ hasText: 'Sauce Labs Backpack' });
+    const itemToRemove = cartPage.cartItems.filter({ hasText: PRODUCTS.BACKPACK });
     await itemToRemove.locator('button', { hasText: 'Remove' }).click();
     await expect(inventoryPage.navbar.cartBadge).toBeHidden();
 
     await cartPage.goToCheckout();
     await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    await checkoutStep1.fillInformationAndContinue('Nicolas', 'Tester', '11000');
+    await checkoutStep1.fillInformationAndContinue(DEFAULT_CUSTOMER.firstName, DEFAULT_CUSTOMER.lastName, DEFAULT_CUSTOMER.postalCode);
     await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
     await expect(checkoutOverview.subtotalLabel).toHaveText('Item total: $0');
