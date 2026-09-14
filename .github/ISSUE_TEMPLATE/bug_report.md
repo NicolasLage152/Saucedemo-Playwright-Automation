@@ -1,14 +1,15 @@
 ---
 name: Bug Report
 about: Create a report to help us improve the e-commerce platform
-title: '[BUG] - Brief description of the issue'
+title: "[BUG] - Brief description of the issue"
 labels: bug, e-commerce
-assignees: ''
+assignees: ""
 ---
 
 ## 🐛 Bug Description
 
 ## 🛠️ Steps to Reproduce
+
 1. Go to '...'
 2. Click on '....'
 3. Fill information with '....'
@@ -19,6 +20,7 @@ assignees: ''
 ## 🚨 Actual Behavior
 
 ## 💻 Environment
+
 - **OS:** [e.g. Windows 11, macOS, Ubuntu]
 - **Browser:** [e.g. Chromium, Firefox, WebKit]
 - **Playwright Version:** [e.g. 1.41.0]

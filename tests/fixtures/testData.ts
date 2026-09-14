@@ -74,5 +74,10 @@ export const USERS = {
 } as const;
 
 export const PASSWORDS = {
-  STANDARD: "secret_sauce",
-} as const;
+  get STANDARD() {
+    if (!process.env.PASSWORD) {
+      throw new Error("Missing PASSWORD in .env");
+    }
+    return process.env.PASSWORD;
+  },
+};

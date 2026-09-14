@@ -101,7 +101,7 @@ test.describe("Cart Management", () => {
     const itemToRemove = cartPage.cartItems.filter({
       hasText: PRODUCTS.BIKE_LIGHT,
     });
-    await itemToRemove.locator("button", { hasText: "Remove" }).click();
+    await itemToRemove.getByRole("button", { name: "Remove" }).click();
 
     await expect(cartPage.cartItems).toHaveCount(2);
     await expect(inventoryPage.navbar.cartBadge).toHaveText("2");
@@ -127,7 +127,7 @@ test.describe("Cart Management", () => {
     const itemToRemove = cartPage.cartItems.filter({
       hasText: PRODUCTS.BACKPACK,
     });
-    await itemToRemove.locator("button", { hasText: "Remove" }).click();
+    await itemToRemove.getByRole("button", { name: "Remove" }).click();
 
     await expect(cartPage.cartItems).toHaveCount(0);
     await expect(inventoryPage.navbar.cartBadge).toBeHidden();
@@ -150,9 +150,7 @@ test.describe("Cart Management", () => {
     const catalogName = await firstItemName.textContent();
     const catalogPrice = await firstItemPrice.textContent();
 
-    await firstCatalogItem
-      .locator("button", { hasText: "Add to cart" })
-      .click();
+    await firstCatalogItem.getByRole("button", { name: "Add to cart" }).click();
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 
     await inventoryPage.goToCart();
@@ -201,8 +199,8 @@ test.describe("Cart Management", () => {
     const item = inventoryPage.inventoryItems.filter({
       hasText: PRODUCTS.BIKE_LIGHT,
     });
-    const addButton = item.locator("button", { hasText: "Add to cart" });
-    const removeButton = item.locator("button", { hasText: "Remove" });
+    const addButton = item.getByRole("button", { name: "Add to cart" });
+    const removeButton = item.getByRole("button", { name: "Remove" });
 
     await addButton.click();
     await expect(removeButton).toBeVisible();

@@ -63,7 +63,7 @@ test.describe("Pruebas de Login y Usuarios Específicos - SauceDemo", () => {
     const item = inventoryPage.inventoryItems.filter({
       hasText: PRODUCTS.FLEECE_JACKET,
     });
-    const addToCartBtn = item.locator("button", { hasText: "Add to cart" });
+    const addToCartBtn = item.getByRole("button", { name: "Add to cart" });
 
     await addToCartBtn.click();
 

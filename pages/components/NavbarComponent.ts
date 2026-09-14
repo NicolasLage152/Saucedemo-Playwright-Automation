@@ -15,7 +15,7 @@ export class NavbarComponent {
 
   constructor(page: Page) {
     this.page = page;
-    this.burgerMenuButton = page.locator("#react-burger-menu-btn");
+    this.burgerMenuButton = page.getByRole("button", { name: "Open Menu" });
     this.logoutSidebarLink = page.locator('[data-test="logout-sidebar-link"]');
     this.allItemsSidebarLink = page.locator(
       '[data-test="inventory-sidebar-link"]',
@@ -23,7 +23,7 @@ export class NavbarComponent {
     this.aboutSidebarLink = page.locator('[data-test="about-sidebar-link"]');
     this.resetSidebarLink = page.locator('[data-test="reset-sidebar-link"]');
     this.appLogo = page.locator(".app_logo");
-    this.closeMenuButton = page.locator("#react-burger-cross-btn");
+    this.closeMenuButton = page.getByRole("button", { name: "Close Menu" });
     this.menuWrap = page.locator(".bm-menu-wrap");
     this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.cartLink = page.locator('[data-test="shopping-cart-link"]');

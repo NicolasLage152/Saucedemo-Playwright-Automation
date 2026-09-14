@@ -20,9 +20,12 @@ export class LoginPage {
   }
 
   async login(
-    username = process.env.STANDARD_USER || "standard_user",
-    password = process.env.PASSWORD || "secret_sauce",
+    username = process.env.STANDARD_USER,
+    password = process.env.PASSWORD,
   ) {
+    if (username === undefined || password === undefined) {
+      throw new Error("Missing credentials. Please check your .env file.");
+    }
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.loginButton.click();

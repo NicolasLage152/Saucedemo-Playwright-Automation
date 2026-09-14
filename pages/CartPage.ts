@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page } from "@playwright/test";
 
 export class CartPage {
   readonly page: Page;
@@ -10,7 +10,9 @@ export class CartPage {
     this.page = page;
     this.cartItems = page.locator('[data-test="inventory-item"]');
     this.checkoutButton = page.locator('[data-test="checkout"]');
-    this.continueShoppingButton = page.locator('[data-test="continue-shopping"]');
+    this.continueShoppingButton = page.locator(
+      '[data-test="continue-shopping"]',
+    );
   }
 
   async goToCheckout() {

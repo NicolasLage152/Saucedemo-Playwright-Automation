@@ -154,7 +154,7 @@ test.describe("Checkout Overview (Step 2)", () => {
     const itemToRemove = cartPage.cartItems.filter({
       hasText: PRODUCTS.BACKPACK,
     });
-    await itemToRemove.locator("button", { hasText: "Remove" }).click();
+    await itemToRemove.getByRole("button", { name: "Remove" }).click();
     await expect(inventoryPage.navbar.cartBadge).toBeHidden();
 
     await cartPage.goToCheckout();

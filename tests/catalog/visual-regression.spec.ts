@@ -12,6 +12,7 @@ import { test, expect } from "@fixtures/baseTest";
  */
 test.describe("Visual Regression – Catalog & Product Card Layout", () => {
   // Skip visual regression in CI due to OS-level font rendering and anti-aliasing differences
+  // eslint-disable-next-line playwright/no-skipped-test
   test.skip(
     !!process.env.CI,
     "Visual regression tests are OS-dependent and should be run locally or via Docker",
@@ -51,12 +52,12 @@ test.describe("Visual Regression – Catalog & Product Card Layout", () => {
     inventoryPage,
   }) => {
     const firstCard = inventoryPage.inventoryItems.first();
-    const addButton = firstCard.locator("button", { hasText: "Add to cart" });
+    const addButton = firstCard.getByRole("button", { name: "Add to cart" });
 
     await addButton.click();
     // Web-first assertion guards the snapshot — button must become "Remove" first
     await expect(
-      firstCard.locator("button", { hasText: "Remove" }),
+      firstCard.getByRole("button", { name: "Remove" }),
     ).toBeVisible();
 
     await expect(firstCard).toHaveScreenshot("product-card-in-cart.png", {

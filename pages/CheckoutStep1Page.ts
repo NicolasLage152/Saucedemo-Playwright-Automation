@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator } from "@playwright/test";
 
 export class CheckoutStep1 {
   readonly page: Page;
@@ -11,11 +11,11 @@ export class CheckoutStep1 {
 
   constructor(page: Page) {
     this.page = page;
-    
+
     this.firstNameInput = page.locator('[data-test="firstName"]');
     this.lastNameInput = page.locator('[data-test="lastName"]');
     this.postalCodeInput = page.locator('[data-test="postalCode"]');
-    
+
     this.continueButton = page.locator('[data-test="continue"]');
     this.cancelButton = page.locator('[data-test="cancel"]');
     this.errorMessage = page.locator('[data-test="error"]');
@@ -41,7 +41,11 @@ export class CheckoutStep1 {
     await this.cancelButton.click();
   }
 
-  async fillInformationAndContinue(firstName: string, lastName: string, postalCode: string) {
+  async fillInformationAndContinue(
+    firstName: string,
+    lastName: string,
+    postalCode: string,
+  ) {
     await this.fillFirstName(firstName);
     await this.fillLastName(lastName);
     await this.fillPostalCode(postalCode);

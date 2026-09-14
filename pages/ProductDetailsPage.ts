@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page } from "@playwright/test";
 
 export class ProductDetailsPage {
   readonly page: Page;
@@ -13,14 +13,16 @@ export class ProductDetailsPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.container = page.locator('.inventory_details_container');
-    this.image = page.locator('img.inventory_details_img');
-    this.name = page.locator('.inventory_details_name');
-    this.description = page.locator('.inventory_details_desc');
-    this.price = page.locator('.inventory_details_price');
-    this.addToCartButton = page.locator('button', { hasText: 'Add to cart' });
-    this.removeButton = page.locator('button', { hasText: 'Remove' });
-    this.backToProductsButton = page.locator('[data-test="back-to-products"]');
+    this.container = page.locator(".inventory_details_container");
+    this.image = page.locator("img.inventory_details_img");
+    this.name = page.locator(".inventory_details_name");
+    this.description = page.locator(".inventory_details_desc");
+    this.price = page.locator(".inventory_details_price");
+    this.addToCartButton = page.getByRole("button", { name: "Add to cart" });
+    this.removeButton = page.getByRole("button", { name: "Remove" });
+    this.backToProductsButton = page.getByRole("button", {
+      name: "Back to products",
+    });
   }
 
   async addToCart() {

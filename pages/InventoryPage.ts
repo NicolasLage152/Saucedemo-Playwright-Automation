@@ -20,7 +20,7 @@ export class InventoryPage {
     this.sortDropdown = page.locator('[data-test="product-sort-container"]');
     this.itemNames = page.locator('[data-test="inventory-item-name"]');
     this.itemPrices = page.locator('[data-test="inventory-item-price"]');
-    this.addButtons = page.locator("button", { hasText: "Add to cart" });
+    this.addButtons = page.getByRole("button", { name: "Add to cart" });
   }
 
   async openProductByName(productName: string) {
@@ -32,12 +32,12 @@ export class InventoryPage {
 
   async addProductToCart(productName: string) {
     const item = this.inventoryItems.filter({ hasText: productName });
-    await item.locator("button", { hasText: "Add to cart" }).click();
+    await item.getByRole("button", { name: "Add to cart" }).click();
   }
 
   async removeProductFromCatalog(productName: string) {
     const item = this.inventoryItems.filter({ hasText: productName });
-    await item.locator("button", { hasText: "Remove" }).click();
+    await item.getByRole("button", { name: "Remove" }).click();
   }
 
   async goToCart() {
