@@ -10,6 +10,7 @@ export class InventoryPage {
   readonly sortDropdown: Locator;
   readonly itemNames: Locator;
   readonly itemPrices: Locator;
+  readonly addButtons: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -19,6 +20,7 @@ export class InventoryPage {
     this.sortDropdown = page.locator('[data-test="product-sort-container"]');
     this.itemNames = page.locator('[data-test="inventory-item-name"]');
     this.itemPrices = page.locator('[data-test="inventory-item-price"]');
+    this.addButtons = page.locator("button", { hasText: "Add to cart" });
   }
 
   async openProductByName(productName: string) {

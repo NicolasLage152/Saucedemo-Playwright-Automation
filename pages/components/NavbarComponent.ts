@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class NavbarComponent {
   readonly page: Page;
@@ -11,6 +11,7 @@ export class NavbarComponent {
   readonly menuWrap: Locator;
   readonly cartBadge: Locator;
   readonly cartLink: Locator;
+  readonly appLogo: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,6 +22,7 @@ export class NavbarComponent {
     );
     this.aboutSidebarLink = page.locator('[data-test="about-sidebar-link"]');
     this.resetSidebarLink = page.locator('[data-test="reset-sidebar-link"]');
+    this.appLogo = page.locator(".app_logo");
     this.closeMenuButton = page.locator("#react-burger-cross-btn");
     this.menuWrap = page.locator(".bm-menu-wrap");
     this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
@@ -37,7 +39,7 @@ export class NavbarComponent {
     if (isClosed) {
       await this.burgerMenuButton.click();
     }
-    await expect(this.menuWrap).toHaveCSS("transform", "none");
+    await this.logoutSidebarLink.waitFor({ state: "visible" });
   }
 
   async logout() {
