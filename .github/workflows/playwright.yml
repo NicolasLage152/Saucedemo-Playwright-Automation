@@ -49,7 +49,7 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-playwright-v2-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright Browser and OS Deps (Cache Miss)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
