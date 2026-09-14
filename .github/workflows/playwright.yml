@@ -63,6 +63,8 @@ jobs:
         run: npx playwright test --project=${{ matrix.browser }} --reporter=blob
         env:
           TEST_ENV: ${{ vars.TEST_ENV || 'https://www.saucedemo.com' }}
+          STANDARD_USER: ${{ secrets.STANDARD_USER || 'standard_user' }}
+          PASSWORD: ${{ secrets.PASSWORD || 'secret_sauce' }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
