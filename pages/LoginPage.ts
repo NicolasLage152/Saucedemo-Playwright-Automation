@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page } from "@playwright/test";
 
 export class LoginPage {
   readonly page: Page;
@@ -16,10 +16,13 @@ export class LoginPage {
   }
 
   async goto() {
-    await this.page.goto('/');
+    await this.page.goto("/");
   }
 
-  async login(username = 'standard_user', password = 'secret_sauce') {
+  async login(
+    username = process.env.STANDARD_USER || "standard_user",
+    password = process.env.PASSWORD || "secret_sauce",
+  ) {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.loginButton.click();

@@ -1,52 +1,37 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
-import { InventoryPage } from "../pages/InventoryPage";
-import { CartPage } from "../pages/CartPage";
-import { CheckoutStep1 } from "../pages/CheckoutStep1Page";
-import { CheckoutOverviewPage } from "../pages/CheckoutOverviewPage";
-import { ProductDetailsPage } from "../pages/ProductDetailsPage";
+import { test, expect } from "@fixtures/baseTest";
+import { LoginPage } from "@pages/LoginPage";
 
 test.describe("Automated E-commerce Tests - Checkout Overview", () => {
-  let loginPage: LoginPage;
-  let inventoryPage: InventoryPage;
-  let cartPage: CartPage;
-  let checkoutStep1: CheckoutStep1;
-  let checkoutOverview: CheckoutOverviewPage;
-  let pdp: ProductDetailsPage;
+  test.beforeEach(
+    async ({ page, loginPage, inventoryPage, cartPage, checkoutStep1 }) => {
+      await loginPage.goto();
+      await loginPage.login();
 
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
-    cartPage = new CartPage(page);
-    checkoutStep1 = new CheckoutStep1(page);
-    checkoutOverview = new CheckoutOverviewPage(page);
-    pdp = new ProductDetailsPage(page);
+      await inventoryPage.addProductToCart("Sauce Labs Backpack");
+      // FIX CLAVE: Confirmar que el carrito recibió el item antes de navegar
+      await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 
-    await loginPage.goto();
-    await loginPage.login();
+      await inventoryPage.goToCart();
+      // FIX CLAVE: Esperar a que la página del carrito cargue
+      await expect(page).toHaveURL(/.*cart\.html/);
 
-    await inventoryPage.addProductToCart("Sauce Labs Backpack");
-    // FIX CLAVE: Confirmar que el carrito recibió el item antes de navegar
-    await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
+      await cartPage.goToCheckout();
+      // FIX CLAVE: Esperar a que la vista de checkout cargue
+      await expect(page).toHaveURL(/.*checkout-step-one\.html/);
 
-    await inventoryPage.goToCart();
-    // FIX CLAVE: Esperar a que la página del carrito cargue
-    await expect(page).toHaveURL(/.*cart\.html/);
-
-    await cartPage.goToCheckout();
-    // FIX CLAVE: Esperar a que la vista de checkout cargue
-    await expect(page).toHaveURL(/.*checkout-step-one\.html/);
-
-    await checkoutStep1.fillInformationAndContinue(
-      "Nicolas",
-      "Tester",
-      "11000",
-    );
-    await expect(page).toHaveURL(/.*checkout-step-two\.html/);
-  });
+      await checkoutStep1.fillInformationAndContinue(
+        "Nicolas",
+        "Tester",
+        "11000",
+      );
+      await expect(page).toHaveURL(/.*checkout-step-two\.html/);
+    },
+  );
 
   test("Validate redirection to the PDP from the product title and its visibility", async ({
     page,
+    checkoutOverview,
+    pdp,
   }) => {
     const firstCartItem = checkoutOverview.inventoryItems.first();
     const productTitleLocator = firstCartItem.locator(".inventory_item_name");
@@ -65,7 +50,9 @@ test.describe("Automated E-commerce Tests - Checkout Overview", () => {
     await expect(pdp.description).toBeVisible();
   });
 
-  test("Validate static Payment and Shipping information", async () => {
+  test("Validate static Payment and Shipping information", async ({
+    checkoutOverview,
+  }) => {
     await expect(checkoutOverview.paymentInfoLabel).toHaveText(
       "Payment Information:",
     );
@@ -83,6 +70,8 @@ test.describe("Automated E-commerce Tests - Checkout Overview", () => {
 
   test("Validate the Cancel button flow returns to the catalog while preserving the cart", async ({
     page,
+    checkoutOverview,
+    inventoryPage,
   }) => {
     await checkoutOverview.cancelButton.click();
     await expect(page).toHaveURL(/.*inventory\.html/);
@@ -91,17 +80,23 @@ test.describe("Automated E-commerce Tests - Checkout Overview", () => {
 
   test("Validate the Finish button flow successfully completes the purchase", async ({
     page,
+    checkoutOverview,
+    checkoutCompletePage,
   }) => {
     await checkoutOverview.finishOrder();
     await expect(page).toHaveURL(/.*checkout-complete\.html/);
-    await expect(checkoutOverview.completeHeader).toHaveText(
+    await expect(checkoutCompletePage.headerMessage).toHaveText(
       "Thank you for your order!",
     );
-    await expect(checkoutOverview.backToProductsButton).toBeVisible();
+    await expect(checkoutCompletePage.backHomeButton).toBeVisible();
   });
 
   test("Edge Case - Validate dynamic mathematical calculation with multiple products", async ({
     page,
+    checkoutOverview,
+    inventoryPage,
+    cartPage,
+    checkoutStep1,
   }) => {
     await checkoutOverview.cancelButton.click();
     await expect(page).toHaveURL(/.*inventory\.html/); // FIX: Estabilizar transición
@@ -147,6 +142,10 @@ test.describe("Automated E-commerce Tests - Checkout Overview", () => {
 
   test("Edge Case - Allow checkout with an empty cart (Platform behavior)", async ({
     page,
+    checkoutOverview,
+    inventoryPage,
+    cartPage,
+    checkoutStep1,
   }) => {
     await checkoutOverview.cancelButton.click();
     await expect(page).toHaveURL(/.*inventory\.html/); // FIX

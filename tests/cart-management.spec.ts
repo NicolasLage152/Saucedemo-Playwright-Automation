@@ -1,24 +1,16 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
-import { InventoryPage } from "../pages/InventoryPage";
-import { CartPage } from "../pages/CartPage";
+import { test, expect } from "@fixtures/baseTest";
+// Import LoginPage manually just for Edge Case if needed
 
 test.describe("Cart Management Tests - SauceDemo", () => {
-  let loginPage: LoginPage;
-  let inventoryPage: InventoryPage;
-  let cartPage: CartPage;
-
-  test.beforeEach(async ({ page }) => {
-    loginPage = new LoginPage(page);
-    inventoryPage = new InventoryPage(page);
-    cartPage = new CartPage(page);
-
+  test.beforeEach(async ({ loginPage }) => {
     await loginPage.goto();
     await loginPage.login();
   });
 
   test("Verify interface and initial state when entering an empty cart", async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     await inventoryPage.goToCart();
     await expect(page).toHaveURL(/.*cart\.html/);
@@ -32,6 +24,8 @@ test.describe("Cart Management Tests - SauceDemo", () => {
 
   test('Validate the "Continue Shopping" button returns to the catalog while maintaining the state', async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
 
@@ -49,6 +43,8 @@ test.describe("Cart Management Tests - SauceDemo", () => {
 
   test("Verify product persistence in the cart after reloading the page (F5)", async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     const product = "Sauce Labs Bolt T-Shirt";
 
@@ -71,6 +67,8 @@ test.describe("Cart Management Tests - SauceDemo", () => {
 
   test("Verify the bulk addition of all products to the cart (6/6)", async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     // FIX CLAVE: Playwright no debe contar hasta asegurarse que el catálogo cargó por completo
     await expect(inventoryPage.inventoryItems).toHaveCount(6); // Forzamos la espera inteligente
@@ -92,7 +90,10 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     await expect(cartPage.cartItems).toHaveCount(totalProducts);
   });
 
-  test("Partial removal with multiple products correctly updates the badge and list", async () => {
+  test("Partial removal with multiple products correctly updates the badge and list", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
     await inventoryPage.addProductToCart("Sauce Labs Bike Light");
     await inventoryPage.addProductToCart("Sauce Labs Bolt T-Shirt");
@@ -119,7 +120,10 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     ).toBeVisible();
   });
 
-  test("Removing a product from the cart updates the list and counter", async () => {
+  test("Removing a product from the cart updates the list and counter", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
 
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1"); // Espera estado antes de ir al carrito
@@ -139,6 +143,8 @@ test.describe("Cart Management Tests - SauceDemo", () => {
 
   test("Product details in the cart match those in the catalog", async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     const firstCatalogItem = inventoryPage.inventoryItems.first();
     const firstItemName = firstCatalogItem.locator(
@@ -172,6 +178,8 @@ test.describe("Cart Management Tests - SauceDemo", () => {
 
   test("The Checkout button correctly initiates the purchase flow", async ({
     page,
+    inventoryPage,
+    cartPage,
   }) => {
     await inventoryPage.addProductToCart("Sauce Labs Onesie");
     await expect(inventoryPage.navbar.cartBadge).toBeVisible(); // Asegurar estado
@@ -184,7 +192,10 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     );
   });
 
-  test("Removing the product from the catalog view updates the badge", async () => {
+  test("Removing the product from the catalog view updates the badge", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 
@@ -196,7 +207,10 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     await expect(cartPage.cartItems).toHaveCount(0);
   });
 
-  test("Rapid state toggling (Quick Add/Remove toggle) in the catalog", async () => {
+  test("Rapid state toggling (Quick Add/Remove toggle) in the catalog", async ({
+    inventoryPage,
+    cartPage,
+  }) => {
     const item = inventoryPage.inventoryItems.filter({
       hasText: "Sauce Labs Bike Light",
     });
@@ -217,7 +231,11 @@ test.describe("Cart Management Tests - SauceDemo", () => {
     await expect(cartPage.cartItems).toHaveCount(1);
   });
 
-  test("Cart behavior after logging out and logging back in", async () => {
+  test("Cart behavior after logging out and logging back in", async ({
+    inventoryPage,
+    cartPage,
+    loginPage,
+  }) => {
     await inventoryPage.addProductToCart("Sauce Labs Backpack");
     await expect(inventoryPage.navbar.cartBadge).toHaveText("1");
 

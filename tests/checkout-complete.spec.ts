@@ -47,8 +47,15 @@ test.describe("Pruebas automatizadas E-commerce - Checkout Complete", () => {
   });
 
   test("Validate visibility of all information and visual elements", async () => {
-    // eslint-disable-next-line playwright/expect-expect
-    await checkoutCompletePage.verifyCompletePageDisplayed();
+    await expect(checkoutCompletePage.successIcon).toBeVisible();
+    await expect(checkoutCompletePage.headerMessage).toHaveText(
+      "Thank you for your order!",
+    );
+    await expect(checkoutCompletePage.descriptionText).toHaveText(
+      "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+    );
+    await expect(checkoutCompletePage.backHomeButton).toBeVisible();
+    await expect(checkoutCompletePage.pdfButton).toBeVisible();
   });
 
   test("Validate Back Home button functionality", async ({ page }) => {

@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page } from "@playwright/test";
 
 export class CheckoutOverviewPage {
   readonly page: Page;
@@ -9,8 +9,6 @@ export class CheckoutOverviewPage {
   readonly totalLabel: Locator;
   readonly finishButton: Locator;
   readonly cancelButton: Locator;
-  readonly completeHeader: Locator;
-  readonly backToProductsButton: Locator;
   readonly paymentInfoLabel: Locator;
   readonly paymentInfoValue: Locator;
   readonly shippingInfoLabel: Locator;
@@ -25,8 +23,6 @@ export class CheckoutOverviewPage {
     this.totalLabel = page.locator('[data-test="total-label"]');
     this.finishButton = page.locator('[data-test="finish"]');
     this.cancelButton = page.locator('[data-test="cancel"]');
-    this.completeHeader = page.locator('[data-test="complete-header"]');
-    this.backToProductsButton = page.locator('[data-test="back-to-products"]');
     this.paymentInfoLabel = page.locator('[data-test="payment-info-label"]');
     this.paymentInfoValue = page.locator('[data-test="payment-info-value"]');
     this.shippingInfoLabel = page.locator('[data-test="shipping-info-label"]');
@@ -38,7 +34,7 @@ export class CheckoutOverviewPage {
     let subtotal = 0;
     for (let i = 0; i < count; i++) {
       const priceText = await this.itemPrices.nth(i).innerText();
-      subtotal += parseFloat(priceText.replace('$', ''));
+      subtotal += parseFloat(priceText.replace("$", ""));
     }
     return parseFloat(subtotal.toFixed(2));
   }

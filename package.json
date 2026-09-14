@@ -23,16 +23,14 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.5.1",
     "prettier": "^3.9.6",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.0"
   },
   "lint-staged": {
     "*.ts": [
       "npx eslint --fix",
       "npx prettier --write",
-      "npx playwright test --pass-with-no-tests"
+      "bash -c 'tsc --noEmit'"
     ]
-  },
-  "dependencies": {
-    "node": "^26.8.2"
   }
 }

@@ -5,6 +5,7 @@ import { ProductDetailsPage } from "../pages/ProductDetailsPage";
 import { CartPage } from "../pages/CartPage";
 import { CheckoutStep1 } from "../pages/CheckoutStep1Page";
 import { CheckoutOverviewPage } from "../pages/CheckoutOverviewPage";
+import { CheckoutCompletePage } from "../pages/CheckoutCompletePage";
 
 test.describe("Automated E-commerce Tests - SauceDemo", () => {
   let inventoryPage: InventoryPage;
@@ -12,6 +13,7 @@ test.describe("Automated E-commerce Tests - SauceDemo", () => {
   let cartPage: CartPage;
   let checkoutStep1: CheckoutStep1;
   let checkoutOverview: CheckoutOverviewPage;
+  let checkoutCompletePage: CheckoutCompletePage;
 
   test.beforeEach(async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -20,6 +22,7 @@ test.describe("Automated E-commerce Tests - SauceDemo", () => {
     cartPage = new CartPage(page);
     checkoutStep1 = new CheckoutStep1(page);
     checkoutOverview = new CheckoutOverviewPage(page);
+    checkoutCompletePage = new CheckoutCompletePage(page);
 
     await loginPage.goto();
     await loginPage.login();
@@ -98,9 +101,7 @@ test.describe("Automated E-commerce Tests - SauceDemo", () => {
       "Tester",
       "11000",
     );
-    await expect(page).toHaveURL(
-      /.*checkout-step-two\.html/,
-    );
+    await expect(page).toHaveURL(/.*checkout-step-two\.html/);
 
     // Checkout Step 2 - Validaciones de precio
     await expect(checkoutOverview.itemPrices).toHaveCount(2);
@@ -126,7 +127,7 @@ test.describe("Automated E-commerce Tests - SauceDemo", () => {
     );
 
     await checkoutOverview.finishOrder();
-    await expect(checkoutOverview.completeHeader).toHaveText(
+    await expect(checkoutCompletePage.headerMessage).toHaveText(
       "Thank you for your order!",
     );
   });
